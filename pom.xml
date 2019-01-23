@@ -8,6 +8,8 @@
 		<module>DAL.Contracts</module>
 		<module>BLL.Implementation</module>
 		<module>DAL.Implementation</module>
+		<module>common</module>
+		<module>application</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -15,8 +17,8 @@
 		<version>2.1.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.pet</groupId>
-	<artifactId>social</artifactId>
+	<groupId>social</groupId>
+	<artifactId>main</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>social</name>
 	<description>Demo project for Spring Boot</description>
@@ -73,6 +75,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<sourceDirectory>src/main/java, src/main/resources</sourceDirectory>
 	</build>
 
 </project>

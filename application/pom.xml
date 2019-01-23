@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>DAL.Implementation</artifactId>
+    <artifactId>application</artifactId>
 
     <dependencies>
         <dependency>
@@ -19,7 +19,22 @@
         </dependency>
         <dependency>
             <groupId>social</groupId>
+            <artifactId>BLL.Contracts</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>social</groupId>
+            <artifactId>BLL.Implementation</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>social</groupId>
             <artifactId>DAL.Contracts</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>social</groupId>
+            <artifactId>DAL.Implementation</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
