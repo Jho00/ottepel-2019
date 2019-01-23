@@ -2,7 +2,7 @@ package org.pet.social.BLL.implementation;
 
 import org.pet.social.BLL.contracts.MainInterface;
 import org.pet.social.DAL.contracts.UserInterface;
-import social.common.entity.User;
+import org.pet.social.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

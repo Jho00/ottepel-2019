@@ -1,7 +1,7 @@
 package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.MainInterface;
-import social.common.entity.User;
+import org.pet.social.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

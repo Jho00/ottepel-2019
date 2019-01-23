@@ -1,4 +1,4 @@
-package social.common.entity;
+package org.pet.social.common.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
