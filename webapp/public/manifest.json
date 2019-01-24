@@ -1,6 +1,6 @@
 {
-  "name": "webapi",
-  "short_name": "webapi",
+  "name": "webapp",
+  "short_name": "webapp",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
