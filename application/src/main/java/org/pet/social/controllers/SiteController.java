@@ -2,17 +2,19 @@ package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.MainInterface;
 import org.pet.social.common.entity.User;
+import org.pet.social.common.responses.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class MainController {
+public class SiteController extends BaseController {
     @Autowired
     private MainInterface main;
 
     @RequestMapping("/")
-    public String index() {
-        return main.greeting();
+    public @ResponseBody
+    Response index() {
+        return this.error(402);
     }
 
 
@@ -29,5 +31,4 @@ public class MainController {
         main.createUser(name, email);
         return "Saved";
     }
-
 }
