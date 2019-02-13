@@ -24,7 +24,7 @@ public class MainService implements MainInterface {
     @Override
     public void createUser(String name, String email) {
         User tmp = new User();
-        tmp.setName(name);
+        tmp.setFirstName(name);
         tmp.setEmail(email);
         user.save(tmp);
     }
