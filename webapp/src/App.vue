@@ -1,19 +1,23 @@
 <template>
     <div>
         <Header/>
-        <router-view/>
-        <Footer/>
+        <main>
+            <router-view/>
+        </main>
+        <!--<Footer/>-->
     </div>
 </template>
 
 <script>
-    import Header from '@/components/Header.vue'
-    import Footer from '@/components/Footer.vue'
+    import Header from '@/layouts/Header.vue'
+    import Footer from '@/layouts/Footer.vue'
+    import Main from '@/layouts/Main.vue'
 
     export default {
         components: {
             Header,
-            Footer
+            Footer,
+            Main
         }
     }
 </script>
