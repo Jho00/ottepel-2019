@@ -1,5 +1,8 @@
 package org.pet.social.common.entity;
 
+import org.pet.social.common.enums.ProblemStatus;
+import org.pet.social.common.enums.Resolvers;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -31,12 +34,39 @@ public class Problem {
     @NotNull
     private Timestamp createdAt;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", columnDefinition = "int default 0")
-    private Integer status; // TODO: change to enum
+    private ProblemStatus status;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "resolver", columnDefinition = "int default 0")
+    private Resolvers resolver;
+
 
     @Column(name = "category_id")
     @NotNull
     private int categoryId;
+
+    @Column(name = "lat")
+    private double lat;
+
+    @Column(name = "lon")
+    private double lon;
+
+    @Column(name = "approve_count", columnDefinition = "int default 0")
+    private int approveCount;
+
+    @Column(name = "resolve_count", columnDefinition = "int default 0")
+    private int resolveCount;
+
+    public Resolvers getResolver() {
+        return resolver;
+    }
+
+    public void setResolver(Resolvers resolver) {
+        this.resolver = resolver;
+    }
+
 
     public Integer getId() {
         return id;
@@ -94,12 +124,44 @@ public class Problem {
         this.createdAt = createdAt;
     }
 
-    public Integer getStatus() {
+    public ProblemStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(ProblemStatus status) {
         this.status = status;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public int getApproveCount() {
+        return approveCount;
+    }
+
+    public void setApproveCount(int approveCount) {
+        this.approveCount = approveCount;
+    }
+
+    public int getResolveCount() {
+        return resolveCount;
+    }
+
+    public void setResolveCount(int resolveCount) {
+        this.resolveCount = resolveCount;
     }
 
     @Override
