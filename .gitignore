@@ -30,4 +30,4 @@ logs/*
 /.nb-gradle/
 
 # dependencies
-/node_modules
+/webapp/node_modules

@@ -11,6 +11,10 @@
 
     <artifactId>common</artifactId>
 
+        <build>
+            <sourceDirectory>./src/main/java</sourceDirectory>
+        </build>
+
     <dependencies>
     </dependencies>
 
