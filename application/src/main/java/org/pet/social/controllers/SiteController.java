@@ -4,7 +4,10 @@ import org.pet.social.BLL.contracts.MainInterface;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class SiteController extends BaseController {
@@ -13,8 +16,8 @@ public class SiteController extends BaseController {
 
     @RequestMapping("/")
     public @ResponseBody
-    Response index() {
-        return this.error(402);
+    Response index(HttpServletResponse response) {
+        return this.error(response, 402);
     }
 
 

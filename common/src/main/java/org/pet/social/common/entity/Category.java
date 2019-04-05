@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="albums")
-public class Albums {
+@Table(name="Category")
+public class Category {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -18,16 +18,11 @@ public class Albums {
     @NotEmpty(message = "id пользователя  должно присутстовать")
     private int userId;
 
-    @Column(name="main_photo_id")
-    private int mainPhotoId;
-
     @Column(name="title")
     @NotNull(message = "Заголовок- это обязательный параметр")
     @NotEmpty(message = "Заголовок должен присутстовать")
     private String title;
 
-    @Column(name="is_private", columnDefinition = "bool default false")
-    private boolean isPrivate;
 
     @Column(name="created_at")
     private Timestamp createdAt;
@@ -48,28 +43,12 @@ public class Albums {
         this.userId = userId;
     }
 
-    public int getMainPhotoId() {
-        return mainPhotoId;
-    }
-
-    public void setMainPhotoId(int mainPhotoId) {
-        this.mainPhotoId = mainPhotoId;
-    }
-
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
     }
 
     public Timestamp getCreatedAt() {
@@ -83,19 +62,17 @@ public class Albums {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Albums)) return false;
-        Albums albums = (Albums) o;
-        return this.getId() == albums.getId();
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return this.getId() == category.getId();
     }
 
     @Override
     public String toString() {
-        return "Albums{" +
+        return "Category{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", mainPhotoId=" + mainPhotoId +
                 ", title='" + title + '\'' +
-                ", isPrivate=" + isPrivate +
                 ", createdAt=" + createdAt +
                 '}';
     }
