@@ -39,7 +39,7 @@ public class CommentsService implements CommentsServiceInterface {
         return true;
     }
 
-    public Comment GetComment(Integer commentId){
+    public Comment Get(Integer commentId){
         if(commentId == null) return null;
         Optional<Comment> c = comments.findById(commentId);
         return c.orElse(null);

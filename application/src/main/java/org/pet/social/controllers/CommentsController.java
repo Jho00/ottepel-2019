@@ -25,6 +25,60 @@ public class CommentsController {
     @Autowired
     CommentsServiceInterface commentService;
 
+    @PostMapping(path="/add")
+    public @ResponseBody Response addComment (@RequestParam String text,
+                                            @RequestParam int problemId,
+                                            @RequestParam int userId)
+    {
+        Response response = null;
+        if(commentService.Add(text, problemId, userId)){
+            response = new SuccessResponse("");
+        }else{
+            response = new ErrorResponse();
+        }
+        return response;
+    }
+
+    @GetMapping(path="/get")
+    public  @ResponseBody Response getComment(@RequestParam int commentId)
+    {
+        Response response = null;
+        Comment c = commentService.Get(commentId);
+        if(c != null){
+            response = new SuccessResponse(c);
+        }else{
+            response = new ErrorResponse();
+        }
+        return response;
+    }
+
+    @PostMapping(path="/like")
+    public  @ResponseBody Response likeComment(@RequestParam int commentId,
+                                               @RequestParam int userId)
+    {
+        Response response = null;
+        if(commentService.Like(userId, commentId)){
+            response = new SuccessResponse("");
+        }else{
+            response = new ErrorResponse();
+        }
+        return response;
+    }
+
+    @PostMapping(path="/dislike")
+    public  @ResponseBody Response dislikeComment(@RequestParam int commentId,
+                                               @RequestParam int userId)
+    {
+        Response response = null;
+        if(commentService.Dislike(userId, commentId)){
+            response = new SuccessResponse("");
+        }else{
+            response = new ErrorResponse();
+        }
+        return response;
+    }
+
+   /*
     @Autowired
     UserInterface users;
     @Autowired
@@ -56,58 +110,5 @@ public class CommentsController {
         Object[] arr = {u,p};
 
         return new SuccessResponse(arr);
-    }
-
-    @GetMapping(path="/add")
-    public @ResponseBody Response addComment (@RequestParam String text,
-                                            @RequestParam int problemId,
-                                            @RequestParam int userId)
-    {
-        Response response = null;
-        if(commentService.Add(text, problemId, userId)){
-            response = new SuccessResponse("");
-        }else{
-            response = new ErrorResponse();
-        }
-        return response;
-    }
-
-    @GetMapping(path="/get")
-    public  @ResponseBody Response getComment(@RequestParam int commentId)
-    {
-        Response response = null;
-        Comment c = commentService.GetComment(commentId);
-        if(c != null){
-            response = new SuccessResponse(c);
-        }else{
-            response = new ErrorResponse();
-        }
-        return response;
-    }
-
-    @GetMapping(path="/like")
-    public  @ResponseBody Response likeComment(@RequestParam int commentId,
-                                               @RequestParam int userId)
-    {
-        Response response = null;
-        if(commentService.Like(userId, commentId)){
-            response = new SuccessResponse("");
-        }else{
-            response = new ErrorResponse();
-        }
-        return response;
-    }
-
-    @GetMapping(path="/dislike")
-    public  @ResponseBody Response dislikeComment(@RequestParam int commentId,
-                                               @RequestParam int userId)
-    {
-        Response response = null;
-        if(commentService.Dislike(userId, commentId)){
-            response = new SuccessResponse("");
-        }else{
-            response = new ErrorResponse();
-        }
-        return response;
-    }
+    }*/
 }
