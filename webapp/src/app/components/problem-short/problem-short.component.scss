@@ -1,0 +1,19 @@
+.problem-short {
+  width: 70%;
+  border-radius: 4px;
+  background-color: #ffffff;
+  margin-top: 30px;
+  height: 150px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  padding: 10px;
+  overflow: hidden;
+
+  .problem-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .problem-description {
+    text-overflow: ellipsis;
+  }
+}

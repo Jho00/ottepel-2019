@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './pages/main/main.component';
 import { AddProblemComponent } from './pages/add-problem/add-problem.component';
+import { ProblemShortComponent } from './components/problem-short/problem-short.component';
 
 const appRoutes: Routes = [
   {
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     FooterComponent,
     MainComponent,
-    AddProblemComponent
+    AddProblemComponent,
+    ProblemShortComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
