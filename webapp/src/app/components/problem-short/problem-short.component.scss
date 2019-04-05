@@ -11,6 +11,10 @@
   .problem-title {
     font-size: 20px;
     font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .problem-description {

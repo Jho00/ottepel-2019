@@ -1,0 +1,24 @@
+.problem {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .content {
+    background-color: #e5edf9;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .description {
+      margin-top: 20px;
+    }
+  }
+}
