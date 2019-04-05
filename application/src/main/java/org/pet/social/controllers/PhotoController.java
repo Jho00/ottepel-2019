@@ -17,7 +17,7 @@ public class PhotoController {
 
     @Autowired
     PhotoService photos;
-    String[] photoAcceptableFormats = {"image/jpeg"};
+    private final String[] photoAcceptableFormats = {"image/jpeg"};
 
 
     @PostMapping(path="/add")
