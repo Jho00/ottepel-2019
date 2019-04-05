@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 
 
 @Entity
-@Table(name="user")
+@Table(name="User")
 public class User {
     @Id
     @Column(name="id")
@@ -60,7 +60,7 @@ public class User {
 
     public void setToken(String token) { this.token = token; }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

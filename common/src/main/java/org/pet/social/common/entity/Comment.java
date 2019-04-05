@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "comments")
-public class Comments {
+@Table(name = "Comment")
+public class Comment {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -15,23 +15,28 @@ public class Comments {
 
     @Column(name = "user_id")
     @NotNull
-    private int userId;
+    private Integer userId;
 
     @Column(name = "text")
     @NotNull
     private String text;
 
+    @Column(name = "likes")
+    @NotNull
+    private Integer likes;
+
+    @Column(name = "dislikes")
+    @NotNull
+    private Integer dislikes;
+
     @Column(name = "created_at")
     @NotNull
     private Timestamp createdAt;
 
-    @Column(name = "status", columnDefinition = "int default 0")
+    @Column(name = "problem_id")
     @NotNull
-    private int status; // TODO: change to enum
+    private Integer problemId;
 
-    @Column(name = "post_id")
-    @NotNull
-    private int postId;
 
     public int getUserId() {
         return userId;
@@ -57,15 +62,7 @@ public class Comments {
         this.createdAt = createdAt;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -73,36 +70,51 @@ public class Comments {
         this.id = id;
     }
 
-    public int getPostId() {
-        return postId;
+    public Integer getProblemId() {
+        return problemId;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setProblemId(int problemId) {
+        this.problemId = problemId;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public Integer getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Integer dislikes) {
+        this.dislikes = dislikes;
     }
 
     @Override
     public String toString() {
-        return "Comments{" +
+        return "Comment{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", text='" + text + '\'' +
                 ", createdAt=" + createdAt +
-                ", status=" + status +
-                ", postId=" + postId +
+                ", problemId=" + problemId +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Comments)) return false;
-        Comments comments = (Comments) o;
-        return comments.getId() == this.getId();
+        if (!(o instanceof Comment)) return false;
+        Comment comment = (Comment) o;
+        return comment.getId() == this.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, text, createdAt, status, postId);
+        return Objects.hash(id, userId, text, createdAt, problemId);
     }
 }

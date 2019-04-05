@@ -11,6 +11,10 @@
 
   <artifactId>webapp</artifactId>
 
+  <build>
+    <sourceDirectory>./src</sourceDirectory>
+  </build>
+
   <dependencies>
 
   </dependencies>

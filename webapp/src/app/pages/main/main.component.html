@@ -1,0 +1,8 @@
+<div class="main">
+  <div class="content">
+      <span>Список проблем</span>
+      <div class="problems-list">
+          <app-problem-short *ngFor="let problem of problemsList" [problem]="problem"></app-problem-short>
+      </div>
+  </div>
+</div>

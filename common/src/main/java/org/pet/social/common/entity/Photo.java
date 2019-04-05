@@ -2,13 +2,12 @@ package org.pet.social.common.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name="photos")
-public class Photos {
+@Table(name="Photo")
+public class Photo {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -16,15 +15,15 @@ public class Photos {
 
     @Column(name="user_id")
     @NotNull
-    private int userId;
+    private Integer userId;
 
-    @Column(name="album_id")
+    @Column(name="problem_id")
     @NotNull
-    private int albumId;
+    private Integer problemId;
 
     @Column(name="image")
     @NotNull
-    private String image; // ?? type
+    private String image; // ?? Base64
 
     @Column(name="description")
     private String description;
@@ -34,7 +33,7 @@ public class Photos {
     private Timestamp addedAt;
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -42,7 +41,7 @@ public class Photos {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -50,12 +49,12 @@ public class Photos {
         this.userId = userId;
     }
 
-    public int getAlbumId() {
-        return albumId;
+    public Integer getProblemId() {
+        return problemId;
     }
 
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
+    public void setProblemId(int albumId) {
+        this.problemId = albumId;
     }
 
     public String getImage() {
@@ -85,10 +84,10 @@ public class Photos {
 
     @Override
     public String toString() {
-        return "Photos{" +
+        return "Photo{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", albumId=" + albumId +
+                ", problemId=" + problemId +
                 ", image='" + image + '\'' +
                 ", description='" + description + '\'' +
                 ", addedAt=" + addedAt +
@@ -98,13 +97,13 @@ public class Photos {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Photos)) return false;
-        Photos photos = (Photos) o;
-        return photos.getId() == this.getId();
+        if (!(o instanceof Photo)) return false;
+        Photo photo = (Photo) o;
+        return photo.getId() == this.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, albumId, image, description, addedAt);
+        return Objects.hash(id, userId, problemId, image, description, addedAt);
     }
 }
