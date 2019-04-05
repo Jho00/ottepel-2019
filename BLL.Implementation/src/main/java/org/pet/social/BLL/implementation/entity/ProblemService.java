@@ -10,6 +10,7 @@ import org.pet.social.common.exceptions.ObjectNotFoundException;
 import org.pet.social.common.exceptions.ProblemNotApprovedException;
 import org.pet.social.common.exceptions.ProblemShouldNotApprove;
 import org.pet.social.common.servicesClasses.GeoPoint;
+import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -33,16 +34,19 @@ public class ProblemService implements ProblemServiceInterface {
         return problems.findById(id);
     }
 
+
     @Override
-    public boolean add(User user, String title, String body, GeoPoint point) {
+    public boolean add(User user, AddProblemViewModel model) {
         Problem problem = new Problem();
         problem.setStatus(ProblemStatus.NOT_CONFIRMED);
-        problem.setText(body);
-        problem.setTitle(title);
-        problem.setUserId(user.getId());
+        problem.setText(model.getBody());
+        problem.setTitle(model.getTitle());
+//        problem.setUserId(user.getId());
+        problem.setUserId(1);
         problem.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        problem.setLat(point.getLat());
-        problem.setLon(point.getLon());
+        problem.setLat(model.getLat());
+        problem.setLon(model.getLon());
+
 
         return problems.save(problem) != null;
     }
