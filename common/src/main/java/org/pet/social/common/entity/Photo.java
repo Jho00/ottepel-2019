@@ -1,5 +1,7 @@
 package org.pet.social.common.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -21,12 +23,14 @@ public class Photo {
     @NotNull
     private Integer problemId;
 
-    @Column(name="image")
+    @Lob
+    @Column(name="image_data")
     @NotNull
-    private String image; // ?? Base64
+    private byte[] image; // ?? Base64
 
-    @Column(name="description")
-    private String description;
+    @Column(name="image_format")
+    @NotNull
+    private String imageFormat;
 
     @Column(name="added_at")
     @NotNull
@@ -57,21 +61,22 @@ public class Photo {
         this.problemId = albumId;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImageFormat() {
+        return imageFormat;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImageFormat(String imageFormat) {
+        this.imageFormat = imageFormat;
     }
+
 
     public Timestamp getAddedAt() {
         return addedAt;
@@ -89,7 +94,6 @@ public class Photo {
                 ", userId=" + userId +
                 ", problemId=" + problemId +
                 ", image='" + image + '\'' +
-                ", description='" + description + '\'' +
                 ", addedAt=" + addedAt +
                 '}';
     }
@@ -104,6 +108,6 @@ public class Photo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, problemId, image, description, addedAt);
+        return Objects.hash(id, userId, problemId, image, addedAt);
     }
 }
