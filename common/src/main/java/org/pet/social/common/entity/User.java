@@ -48,19 +48,17 @@ public class User {
     private Timestamp birthday;
 
     @Column(name="register_at")
-    @NotNull(message = "register_at - это обязательный параметр")
-    @NotEmpty(message = "register_at должен присутстовать")
     private Timestamp registerAt;
-
-    @Column(name="status")
-    private String status;
-
-    @Column(name="account_status")
-    private String accountStatus;
 
     @Column(name="role")
     private Roles role;
 
+    @Column(name="auth_token")
+    private String token;
+
+    public String getToken() { return token; }
+
+    public void setToken(String token) { this.token = token; }
 
     public int getId() {
         return id;
@@ -126,22 +124,6 @@ public class User {
         this.registerAt = registerAt;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(String accountStatus) {
-        this.accountStatus = accountStatus;
-    }
-
     public Roles getRole() {
         return role;
     }
@@ -172,9 +154,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", registerAt=" + registerAt +
-                ", status='" + status + '\'' +
-                ", accountStatus='" + accountStatus + '\'' +
+                ", registerAt=" + registerAt + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
