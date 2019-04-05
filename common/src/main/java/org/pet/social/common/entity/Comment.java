@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "comments")
-public class Comments {
+@Table(name = "Comment")
+public class Comment {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -25,13 +25,9 @@ public class Comments {
     @NotNull
     private Timestamp createdAt;
 
-    @Column(name = "status", columnDefinition = "int default 0")
+    @Column(name = "problem_id")
     @NotNull
-    private int status; // TODO: change to enum
-
-    @Column(name = "post_id")
-    @NotNull
-    private int postId;
+    private int problemId;
 
     public int getUserId() {
         return userId;
@@ -57,14 +53,6 @@ public class Comments {
         this.createdAt = createdAt;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public int getId() {
         return id;
     }
@@ -73,36 +61,35 @@ public class Comments {
         this.id = id;
     }
 
-    public int getPostId() {
-        return postId;
+    public int getProblemId() {
+        return problemId;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setProblemId(int problemId) {
+        this.problemId = problemId;
     }
 
     @Override
     public String toString() {
-        return "Comments{" +
+        return "Comment{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", text='" + text + '\'' +
                 ", createdAt=" + createdAt +
-                ", status=" + status +
-                ", postId=" + postId +
+                ", problemId=" + problemId +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Comments)) return false;
-        Comments comments = (Comments) o;
-        return comments.getId() == this.getId();
+        if (!(o instanceof Comment)) return false;
+        Comment comment = (Comment) o;
+        return comment.getId() == this.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, text, createdAt, status, postId);
+        return Objects.hash(id, userId, text, createdAt, problemId);
     }
 }

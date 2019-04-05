@@ -11,6 +11,9 @@
 
     <artifactId>BLL.Implementation</artifactId>
 
+    <build>
+        <sourceDirectory>./src/main/java</sourceDirectory>
+    </build>
 
     <dependencies>
         <dependency>

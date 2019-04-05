@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "posts")
-public class Posts {
+@Table(name = "Problem")
+public class Problem {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -34,6 +34,9 @@ public class Posts {
     @Column(name = "status", columnDefinition = "int default 0")
     private Integer status; // TODO: change to enum
 
+    @Column(name = "category_id")
+    @NotNull
+    private int categoryId;
 
     public int getId() {
         return id;
@@ -49,6 +52,14 @@ public class Posts {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getTitle() {
@@ -93,13 +104,14 @@ public class Posts {
 
     @Override
     public String toString() {
-        return "Posts{" +
+        return "Problem{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", views=" + views +
                 ", createdAt=" + createdAt +
+                ", categoryId=" + categoryId+
                 ", status=" + status +
                 '}';
     }
@@ -107,9 +119,9 @@ public class Posts {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Posts)) return false;
-        Posts posts = (Posts) o;
-        return posts.getId() == this.getId();
+        if (!(o instanceof Problem)) return false;
+        Problem problem = (Problem) o;
+        return problem.getId() == this.getId();
     }
 
     @Override
