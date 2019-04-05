@@ -38,7 +38,7 @@ public class Problem {
     @NotNull
     private int categoryId;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

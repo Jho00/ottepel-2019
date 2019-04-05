@@ -47,7 +47,6 @@ public class User {
 
     @Column(name="register_at")
     @NotNull(message = "register_at - это обязательный параметр")
-    @NotEmpty(message = "register_at должен присутстовать")
     private Timestamp registerAt;
 
     @Column(name="status")
@@ -60,7 +59,7 @@ public class User {
     private String role; //TODO: change to Enum
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
