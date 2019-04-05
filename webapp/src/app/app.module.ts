@@ -12,6 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ProblemComponent} from './pages/problem/problem.component';
 import { LoginComponent } from './pages/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { SignupComponent } from './pages/signup/signup.component';
 
 const appRoutes: Routes = [
     {
@@ -38,6 +39,11 @@ const appRoutes: Routes = [
         path: 'login',
         component: LoginComponent,
         pathMatch: 'full'
+    },
+    {
+        path: 'signup',
+        component: SignupComponent,
+        pathMatch: 'full'
     }
 ];
 
@@ -50,7 +56,8 @@ const appRoutes: Routes = [
         AddProblemComponent,
         ProblemShortComponent,
         ProblemComponent,
-        LoginComponent
+        LoginComponent,
+        SignupComponent
     ],
     imports: [
         RouterModule.forRoot(appRoutes),

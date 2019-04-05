@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
         })
     }
 
-    login(): void {
+    public login(): void {
 
     }
 
