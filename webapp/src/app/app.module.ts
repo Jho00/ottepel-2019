@@ -10,6 +10,8 @@ import {AddProblemComponent} from './pages/add-problem/add-problem.component';
 import {ProblemShortComponent} from './components/problem-short/problem-short.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ProblemComponent} from './pages/problem/problem.component';
+import { LoginComponent } from './pages/login/login.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const appRoutes: Routes = [
     {
@@ -31,6 +33,11 @@ const appRoutes: Routes = [
         path: 'problem/:id',
         component: ProblemComponent,
         pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+        pathMatch: 'full'
     }
 ];
 
@@ -42,12 +49,15 @@ const appRoutes: Routes = [
         MainComponent,
         AddProblemComponent,
         ProblemShortComponent,
-        ProblemComponent
+        ProblemComponent,
+        LoginComponent
     ],
     imports: [
         RouterModule.forRoot(appRoutes),
         BrowserModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
