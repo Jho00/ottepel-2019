@@ -8,6 +8,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './pages/main/main.component';
 import { AddProblemComponent } from './pages/add-problem/add-problem.component';
 import { ProblemShortComponent } from './components/problem-short/problem-short.component';
+import {HttpClientModule} from "@angular/common/http";
 
 const appRoutes: Routes = [
   {
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
-    BrowserModule
+    BrowserModule,
+      HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
