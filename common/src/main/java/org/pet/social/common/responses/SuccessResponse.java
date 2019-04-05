@@ -1,8 +1,7 @@
 package org.pet.social.common.responses;
 
 public class SuccessResponse extends Response {
-    private static final int DEFAULT_CODE = 200;
-    private static final String DEFAULT_MESSAGE = "Успешно";
+    public static final String DEFAULT_MESSAGE = "Успешно";
 
     private String message;
     private Object body;
@@ -14,7 +13,7 @@ public class SuccessResponse extends Response {
     }
 
     public SuccessResponse(Object object) {
-        this(object, DEFAULT_CODE, DEFAULT_MESSAGE);
+        this(object, ResponseCodes.DEFAULT_SUCCESS_CODE, DEFAULT_MESSAGE);
     }
 
     public SuccessResponse(Object object, int code) {

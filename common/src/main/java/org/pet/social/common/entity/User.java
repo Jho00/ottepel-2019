@@ -1,5 +1,7 @@
 package org.pet.social.common.entity;
 
+import org.pet.social.common.enums.Roles;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -57,7 +59,7 @@ public class User {
     private String accountStatus;
 
     @Column(name="role")
-    private String role; //TODO: change to Enum
+    private Roles role;
 
 
     public int getId() {
@@ -140,11 +142,11 @@ public class User {
         this.accountStatus = accountStatus;
     }
 
-    public String getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

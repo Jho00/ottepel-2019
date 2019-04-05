@@ -1,8 +1,7 @@
 package org.pet.social.common.responses;
 
 public class ErrorResponse extends Response {
-    private static final int DEFAULT_CODE = 400;
-    private static final String DEFAULT_MESSAGE = "Ошибка";
+    public static final String DEFAULT_MESSAGE = "Ошибка";
 
     private String error;
 
@@ -12,12 +11,14 @@ public class ErrorResponse extends Response {
     }
 
     public ErrorResponse() {
-        this(DEFAULT_CODE, DEFAULT_MESSAGE);
+        this(ResponseCodes.DEFAULT_ERROR_CODE, DEFAULT_MESSAGE);
     }
 
-    public ErrorResponse( int code) {
+    public ErrorResponse(int code) {
         this(code, DEFAULT_MESSAGE);
     }
+
+    public ErrorResponse(String message) { this(ResponseCodes.DEFAULT_ERROR_CODE, message); }
 
     public String getError() {
         return error;
