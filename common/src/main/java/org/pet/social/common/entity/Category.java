@@ -13,11 +13,6 @@ public class Category {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    @Column(name="user_id")
-    @NotNull(message = "id пользователя - это обязательный параметр")
-    @NotEmpty(message = "id пользователя  должно присутстовать")
-    private int userId;
-
     @Column(name="title")
     @NotNull(message = "Заголовок- это обязательный параметр")
     @NotEmpty(message = "Заголовок должен присутстовать")
@@ -33,14 +28,6 @@ public class Category {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getTitle() {
@@ -71,7 +58,6 @@ public class Category {
     public String toString() {
         return "Category{" +
                 "id=" + id +
-                ", userId=" + userId +
                 ", title='" + title + '\'' +
                 ", createdAt=" + createdAt +
                 '}';

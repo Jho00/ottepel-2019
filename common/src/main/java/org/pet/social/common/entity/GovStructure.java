@@ -17,11 +17,11 @@ public class GovStructure {
 
     @Column(name = "name")
     @NotNull
-    private int name;
+    private String name;
 
     @Column(name = "description")
     @NotNull
-    private int description;
+    private String description;
 
     public Integer getId() {
         return id;
@@ -31,19 +31,19 @@ public class GovStructure {
         this.id = id;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

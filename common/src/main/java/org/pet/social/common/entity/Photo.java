@@ -15,11 +15,11 @@ public class Photo {
 
     @Column(name="user_id")
     @NotNull
-    private int userId;
+    private Integer userId;
 
     @Column(name="problem_id")
     @NotNull
-    private int problemId;
+    private Integer problemId;
 
     @Column(name="image")
     @NotNull
@@ -33,7 +33,7 @@ public class Photo {
     private Timestamp addedAt;
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -41,7 +41,7 @@ public class Photo {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -49,7 +49,7 @@ public class Photo {
         this.userId = userId;
     }
 
-    public int getProblemId() {
+    public Integer getProblemId() {
         return problemId;
     }
 

@@ -38,7 +38,7 @@ public class UserProblem {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -46,7 +46,7 @@ public class UserProblem {
         this.userId = userId;
     }
 
-    public int getProblemId() {
+    public Integer getProblemId() {
         return problemId;
     }
 

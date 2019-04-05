@@ -15,11 +15,19 @@ public class Comment {
 
     @Column(name = "user_id")
     @NotNull
-    private int userId;
+    private Integer userId;
 
     @Column(name = "text")
     @NotNull
     private String text;
+
+    @Column(name = "likes")
+    @NotNull
+    private Integer likes;
+
+    @Column(name = "dislikes")
+    @NotNull
+    private Integer dislikes;
 
     @Column(name = "created_at")
     @NotNull
@@ -27,7 +35,8 @@ public class Comment {
 
     @Column(name = "problem_id")
     @NotNull
-    private int problemId;
+    private Integer problemId;
+
 
     public int getUserId() {
         return userId;
@@ -53,7 +62,7 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -61,12 +70,28 @@ public class Comment {
         this.id = id;
     }
 
-    public int getProblemId() {
+    public Integer getProblemId() {
         return problemId;
     }
 
     public void setProblemId(int problemId) {
         this.problemId = problemId;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public Integer getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Integer dislikes) {
+        this.dislikes = dislikes;
     }
 
     @Override
