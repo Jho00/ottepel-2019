@@ -4,6 +4,7 @@ import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.enums.Resolvers;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -21,10 +22,13 @@ public class Problem {
     private Integer userId;
 
     @Column(name = "title")
+    @NotNull
+    @NotEmpty
     private String title;
 
     @Column(name = "text")
     @NotNull
+    @NotEmpty
     private String text;
 
     @Column(name = "views", columnDefinition = "int default 0")
