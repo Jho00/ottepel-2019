@@ -24,9 +24,9 @@ public class Photo {
     private Integer problemId;
 
     @Lob
-    @Column(name="image_data")
+    @Column(name="data")
     @NotNull
-    private byte[] image; // ?? Base64
+    private byte[] data; // ?? Base64
 
     @Column(name="image_format")
     @NotNull
@@ -61,12 +61,12 @@ public class Photo {
         this.problemId = albumId;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public String getImageFormat() {
@@ -93,7 +93,7 @@ public class Photo {
                 "id=" + id +
                 ", userId=" + userId +
                 ", problemId=" + problemId +
-                ", image='" + image + '\'' +
+                ", data='" + data + '\'' +
                 ", addedAt=" + addedAt +
                 '}';
     }
@@ -108,6 +108,6 @@ public class Photo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, problemId, image, addedAt);
+        return Objects.hash(id, userId, problemId, data, addedAt);
     }
 }
