@@ -1,10 +1,13 @@
 package org.pet.social.controllers;
 
+import org.pet.social.BLL.contracts.UserControlInterface;
 import org.pet.social.BLL.implementation.PhotoService;
+import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,8 @@ public class PhotoController extends BaseController {
 
     @Autowired
     PhotoService photos;
+    @Autowired
+    private UserControlInterface userControl;
 
     @PostMapping(path = "/add")
     public @ResponseBody
@@ -29,12 +34,19 @@ public class PhotoController extends BaseController {
                  HttpServletRequest request,
                  HttpServletResponse response,
                  @RequestParam Integer problemId,
-                 @RequestParam(name="images", required = false) MultipartFile[] images) {
+                 @RequestParam(name="images", required=false) MultipartFile[] images) {
 
-        if (images != null) System.out.println("not null" + images.length);
-        else System.out.println("NUUUL");
+        String token = request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME);
+        if (token == null) {
+            return this.error(response, 401, "Требуется авторизация!");
+        }
 
-        User user = authUtils.getCurrentUser(request);
+        User user = userControl.getUserByToken(token);
+
+        if(user == null){
+            return this.error(response, 401, "Требуется авторизация!");
+        }
+
         if (images == null || images.length == 0 || problemId == null) {
             return this.error(response, 400, "Неверный запрос!");
         }
