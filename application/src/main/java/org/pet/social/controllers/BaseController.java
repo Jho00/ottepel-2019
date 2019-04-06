@@ -1,10 +1,14 @@
 package org.pet.social.controllers;
 
+import org.pet.social.BLL.contracts.utils.AuthUtilsInterface;
 import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
 import org.pet.social.common.responses.SuccessResponse;
-import org.pet.social.utils.AuthUtils;
+import org.pet.social.utils.AuthUtilsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
  * Контроллер для наследование, на него реквесты не должны идти
  */
 
+@RestController
 public class BaseController {
-    protected AuthUtils authUtils = new AuthUtils();
+    @Autowired
+    protected AuthUtilsInterface authUtils;
 
     protected Response error(HttpServletResponse response)  {
         response.setStatus(400);

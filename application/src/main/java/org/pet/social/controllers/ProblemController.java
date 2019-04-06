@@ -80,12 +80,13 @@ public class ProblemController extends BaseController {
         return this.error(response, 404, "Проблема не обнаружена. Радуйтесь");
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping("/problems/add")
     public @ResponseBody
     Response add(
                 HttpServletRequest request,
                 HttpServletResponse response,
-                @RequestBody @Valid AddProblemViewModel model
+                @RequestBody AddProblemViewModel model
     ) {
 
         User user = authUtils.getCurrentUser(request);

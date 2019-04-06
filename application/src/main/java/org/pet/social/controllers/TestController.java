@@ -91,10 +91,8 @@ public class TestController extends BaseController{
     @GetMapping(path = "/problems")
     public @ResponseBody
     Response GetProblems() {
-        List<Problem> it = probServ.getLimited(ProblemStatus.MODERATION, 10, 0);
-        if (it.size() > 0) {
-            return new SuccessResponse(it);
-        } else return new ErrorResponse();
+        Iterable<Problem> it = probServ.getLimited(ProblemStatus.MODERATION, 10, 0);
+        return  new SuccessResponse(it);
     }
 
 

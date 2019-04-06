@@ -7,6 +7,8 @@ export const ENDPOINTS = {
     register: `${appUrl}/auth/register`,
     logout: `${appUrl}/auth/logout`,
     getCurrentUser: `${appUrl}/auth/user`,
-    getProblemsList: `${appUrl}/problem/`,
-    sendProblem:  `${appUrl}/problem`
+    getProblemsList: `${appUrl}/problem/get`,
+    sendProblem:  `${appUrl}/problems/add`,
+    getProblemById: `${appUrl}/problem/get`,
+    sendPhotos: `${appUrl}/photos/add`
 };

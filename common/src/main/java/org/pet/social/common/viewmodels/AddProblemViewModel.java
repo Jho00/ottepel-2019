@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class AddProblemViewModel {
 
     private String title;
-    private String body;
+    private String text;
     private double lat;
     private double lon;
 
@@ -21,12 +21,12 @@ public class AddProblemViewModel {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public String getText() {
+        return text;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public double getLat() {
