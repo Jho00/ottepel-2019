@@ -22,7 +22,7 @@ export class ProblemComponent implements OnInit {
         this.route.paramMap.subscribe(params => {
             this.problemId = params.get('id');
             this.problemsService.getProblemById(this.problemId).subscribe((data: any) => {
-                this.problem = data.body;
+                this.problem = data.body.problem;
                 this.lp.setLocation(this.problem.lat, this.problem.lon);
             })
         })

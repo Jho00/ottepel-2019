@@ -1,10 +1,19 @@
 <div class="problem">
+    <div class="parallax"></div>
     <div class="content">
         <span class="title">{{problem?.title}}</span>
         <div class="description">
             {{problem?.text}}
         </div>
         <div id="map"></div>
+        <span class="title">Комментарии</span>
         <app-comment *ngFor="let comment of fetchComments()" [comment]="comment" class="my-comment"></app-comment>
+        <div class="left-comment">
+            <div class="form-group">
+                <label for="left-comment">Ваш комментарий</label>
+                <textarea class="form-control" id="left-comment" rows="5"></textarea>
+            </div>
+            <button class="btn btn-primary">Оставить комментарий</button>
+        </div>
     </div>
 </div>
