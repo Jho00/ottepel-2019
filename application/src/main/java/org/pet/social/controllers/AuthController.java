@@ -1,6 +1,7 @@
 package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.UserControlInterface;
+import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
@@ -19,15 +20,11 @@ public class AuthController extends BaseController {
     @Autowired
     private UserControlInterface userControl;
 
-    private static final String HTTP_AUTH_TOKEN_HEADER_NAME = "Authorization";
-
-    public static final String AUTH_ERROR_MESSAGE = "Authentication failed";
-
     @CrossOrigin(origins="*")
     @GetMapping("/auth/user")
     public Response getCurrentUser(HttpServletResponse response, HttpServletRequest request) {
 
-        String token = request.getHeader(HTTP_AUTH_TOKEN_HEADER_NAME);
+        String token = request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME);
 
         if (token != null) {
             return success(response, userControl.getUserByToken(token));
@@ -42,12 +39,10 @@ public class AuthController extends BaseController {
             HttpServletResponse httpServletResponse,
             HttpServletRequest httpServletRequest,
             @RequestBody LoginViewModel loginViewModel) {
-        Response response;
-
-        if (httpServletRequest.getHeader(HTTP_AUTH_TOKEN_HEADER_NAME) != null) {
+        if (httpServletRequest.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME) != null) {
 
             return success(httpServletResponse,
-                    userControl.getUserByToken(httpServletRequest.getHeader(HTTP_AUTH_TOKEN_HEADER_NAME)),
+                    userControl.getUserByToken(httpServletRequest.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME)),
                     ResponseCodes.AUTH_SUCCESS_CODE,
                     "User is already authorized");
         }
@@ -55,14 +50,14 @@ public class AuthController extends BaseController {
         if (userControl.passwordValueEquals(loginViewModel.email, loginViewModel.password)) {
 
             String token = userControl.getToken();
-            Cookie cookie = new Cookie(HTTP_AUTH_TOKEN_HEADER_NAME, token);
+            Cookie cookie = new Cookie(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME, token);
             cookie.setMaxAge(3600);
             httpServletResponse.addCookie(cookie);
             userControl.setToken(loginViewModel.email, token);
 
             return success(httpServletResponse, userControl.getUser());
         } else {
-            return error(httpServletResponse, ResponseCodes.AUTH_ERROR_CODE, AUTH_ERROR_MESSAGE);
+            return error(httpServletResponse, ResponseCodes.AUTH_ERROR_CODE, AuthConstHolder.AUTH_ERROR_MESSAGE);
         }
 
     }
@@ -70,11 +65,13 @@ public class AuthController extends BaseController {
     @PostMapping("/auth/register")
     public Response register(HttpServletResponse response, @RequestBody RegisterViewModel registerViewModel) {
 
-        if (registerViewModel.password.length() < 8)
-            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Password is too short");
+        if (registerViewModel.password.length() < 8) {
+            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Пароль слишком короткий");
+        }
 
-        if (!registerViewModel.password.equals(registerViewModel.passwordConfirmation))
-            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Password wasn`t confirmed");
+        if (!registerViewModel.password.equals(registerViewModel.passwordConfirmation)) {
+            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Пароли не совпадают");
+        }
 
         User user = new User();
 
@@ -85,8 +82,9 @@ public class AuthController extends BaseController {
         user.setSalt(registerViewModel.email.substring(0,2));
         user.setPasswordHash(userControl.getHash(registerViewModel.password, user.getSalt()));
 
-        if (!userControl.validateUser(user))
-            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Register data is not valid");
+        if (!userControl.validateUser(user)) {
+            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Неверные данные для регистрации");
+        }
 
         userControl.addUser(user);
         return success(response, user);
