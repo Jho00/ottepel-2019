@@ -1,6 +1,8 @@
 package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
+import org.pet.social.DAL.contracts.UserInterface;
+import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.exceptions.ObjectNotFoundException;
 import org.pet.social.common.exceptions.ProblemNotApprovedException;
@@ -9,13 +11,19 @@ import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 public class ProblemController extends BaseController {
     @Autowired
     private ProblemServiceInterface problemServiceInterface;
+    @Autowired
+    private UserInterface users;
+
 
     @GetMapping("/problem/get")
     public @ResponseBody
@@ -28,7 +36,7 @@ public class ProblemController extends BaseController {
             return this.success(response, problemServiceInterface.getLimited(limit, offset));
         }
 
-        var problem = problemServiceInterface.get(id);
+        Optional<Problem> problem = problemServiceInterface.get(id);
         if(problem.isPresent()) {
             return this.success(response, problem.get());
         }
@@ -38,8 +46,9 @@ public class ProblemController extends BaseController {
 
     @PostMapping("/problems/add")
     public @ResponseBody Response add(HttpServletResponse response,
-                                      @RequestBody AddProblemViewModel model) {
-        User user = new User(); // TODO: get from service
+                                      @RequestBody @Valid  AddProblemViewModel model
+    ) {
+        User user = users.findById(4).get(); // TODO: get from service
         if(problemServiceInterface.add(user, model)) {
             return this.success(response, "Успешно", 201);
         }

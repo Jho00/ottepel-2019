@@ -1,5 +1,6 @@
 package org.pet.social.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.responses.ErrorResponse;
@@ -9,47 +10,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
 @RequestMapping(path="/photos")
-public class PhotoController {
+public class PhotoController extends BaseController{
 
     @Autowired
     PhotoService photos;
-    private final String[] photoAcceptableFormats = {"image/jpeg"};
-
 
     @PostMapping(path="/add")
-    public @ResponseBody Response Add(@RequestParam("file") MultipartFile file, @RequestParam Integer userId, @RequestParam Integer problemId){
-        String format = file.getContentType();
-        boolean rightFormat = false;
-        for(String f : photoAcceptableFormats){
-            if(f.equals(format)) rightFormat = true;
-        }
-
-        if(!rightFormat) return new ErrorResponse();
-
-        if(file.isEmpty() || userId == null || problemId == null) return new ErrorResponse();
-
-        try {
-            byte[] bytes = file.getBytes();
-            Integer img = photos.Add(bytes, format, userId, problemId);
-            if(img!=null) return new SuccessResponse(img);
-            return new ErrorResponse();
-        }
-        catch (IOException ex){
-            return new ErrorResponse();
-        }
+    public @ResponseBody Response Add(HttpServletResponse response,
+                                      @RequestParam("images") MultipartFile[] images,
+                                      @RequestParam Integer userId,
+                                      @RequestParam Integer problemId){
+        if(images == null || images.length == 0 || userId == null || problemId == null) return this.error(response, 400, "Неверный запрос!");
+        if(photos.AddMany(images, userId, problemId)) return this.success(response,"", 201);
+        return this.error(response, 501);
     }
 
     @GetMapping(path = "/get")
-    public @ResponseBody Response Get(@RequestParam Integer imageId)
+    public @ResponseBody Response Get(HttpServletResponse response, @RequestParam Integer imageId)
     {
         if(imageId != null){
             Photo photo = photos.Get(imageId);
-            if(photo != null) return new SuccessResponse(photo);
+            if(photo != null) return this.success(response,photo);
+            return this.error(response, 501);
         }
-        return new ErrorResponse();
+        return this.error(response, 400);
     }
 }
