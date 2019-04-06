@@ -15,11 +15,12 @@ export class AddProblemComponent implements OnInit {
     public problemForm: FormGroup;
     public isDataLoaded = false;
     public problemId: number;
-    public uploadData = new FormData();
+    public uploadData;
 
 
     constructor(private fb: FormBuilder,
                 private problemsService: ProblemsService) {
+        this.uploadData = new FormData();
     }
 
     ngOnInit() {
@@ -33,6 +34,7 @@ export class AddProblemComponent implements OnInit {
     }
 
     public onFileChanged(event) {
+        this.uploadData = new FormData();
         this.selectedFiles = event.target.files;
         for (let i = 0; i < this.selectedFiles.length; i++) {
             this.uploadData.append('images[]', this.selectedFiles[i].name);
@@ -49,7 +51,6 @@ export class AddProblemComponent implements OnInit {
     }
 
     public sendPhotos(): void {
-        this.uploadData.append('problemId', '12');
-        this.problemsService.sendPhotos(this.uploadData).subscribe();
+        this.problemsService.sendPhotos(this.uploadData, 14).subscribe();
     }
 }

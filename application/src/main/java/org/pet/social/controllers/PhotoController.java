@@ -6,6 +6,7 @@ import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -27,31 +28,35 @@ public class PhotoController extends BaseController {
     PhotoService photos;
     @Autowired
     private UserControlInterface userControl;
+    AuthUtils authUtils;
 
-    @PostMapping(path = "/add")
+    @PostMapping(path = "/add/{problemId}")
     public @ResponseBody
     Response Add(
                  HttpServletRequest request,
                  HttpServletResponse response,
-                 @RequestParam Integer problemId,
+                 @PathVariable String problemId,
                  @RequestParam(name="images", required=false) MultipartFile[] images) {
 
-        String token = request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME);
-        if (token == null) {
-            return this.error(response, 401, "Требуется авторизация!");
-        }
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
 
-        User user = userControl.getUserByToken(token);
+        Integer prob = null;
+        try{
+            prob = Integer.parseInt(problemId);
+        }catch (NumberFormatException num){
+            return this.error(response, 400, "Не верные данные.");
+        }
+        User user = authUtils.getCurrentUser(request);
 
         if(user == null){
             return this.error(response, 401, "Требуется авторизация!");
         }
 
-        if (images == null || images.length == 0 || problemId == null) {
-            return this.error(response, 400, "Неверный запрос!");
+        if (images == null || images.length == 0) {
+            return this.error(response, 400, "Неверный запрос, изображения не найдены!");
         }
 
-        if (photos.AddMany(images, user.getId(), problemId)) {
+        if (photos.AddMany(images, user.getId(), prob)) {
             return this.success(response, "", 201);
         }
 

@@ -5,6 +5,7 @@ import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
+import org.pet.social.utils.AuthUtils;
 import org.pet.social.viewmodels.LoginViewModel;
 import org.pet.social.viewmodels.RegisterViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ import java.sql.Timestamp;
 public class AuthController extends BaseController {
     @Autowired
     private UserControlInterface userControl;
+
+    AuthUtils authUtils;
+
+    public AuthController(){
+        authUtils = new AuthUtils(userControl);
+    }
 
     @CrossOrigin(origins="*")
     @GetMapping("/auth/user")

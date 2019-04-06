@@ -4,12 +4,6 @@ import {Observable, of} from 'rxjs';
 import {Problem} from '../models/problem.model';
 import {ENDPOINTS} from "../constants/url.constants";
 
-const httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type':  'multipart/form-data; boundary=----WebKitFormBoundaryfDlXUrWCEhJ4EZ0C',
-    })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -30,7 +24,7 @@ export class ProblemsService {
       return this.http.post<Response>(ENDPOINTS.sendProblem, data);
   }
 
-  public sendPhotos(data: Object): Observable<Response> {
-      return this.http.post<Response>(ENDPOINTS.sendPhotos, data, httpOptions);
+  public sendPhotos(data: Object, id: number): Observable<Response> {
+      return this.http.post<Response>(`${ENDPOINTS.sendPhotos}/${id}`, data);
   }
 }

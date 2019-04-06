@@ -1,8 +1,17 @@
 <div class="main">
-  <div class="content">
-      <span>Список проблем</span>
-      <div class="problems-list">
-          <app-problem-short *ngFor="let problem of problemsList" [problem]="problem"></app-problem-short>
+  <div class="parallax"></div>
+  <div class="main-inner">
+    <div class="slide">
+      <div class="title-text">
+        Вместе<br>Сделаем Город<br>Лучше!<br>
+        <!--<a href="/add-problem" class="btn btn-primary">Сообщить о проблеме</a>-->
       </div>
+    </div>
+    <div class="content">
+        <span>Список проблем</span>
+        <div class="problems-list">
+            <app-problem-short *ngFor="let problem of problemsList" [problem]="problem"></app-problem-short>
+        </div>
+    </div>
   </div>
 </div>

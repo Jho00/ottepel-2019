@@ -1,5 +1,26 @@
 .container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.81);
+  max-width: unset;
+  height: 100px;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+
+  .nav {
+    flex-grow: 1;
+    .nav-link {
+      color: white;
+      text-transform: uppercase;
+    }
+  }
+
+  @media(max-width: 720px) {
+    font-size: x-large;
+    height: 180px;
+  }
+
 }

@@ -1,9 +1,11 @@
 package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.CommentsServiceInterface;
+import org.pet.social.BLL.implementation.UserControlService;
 import org.pet.social.common.entity.Comment;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,14 @@ public class CommentsController extends BaseController {
 
     @Autowired
     CommentsServiceInterface commentService;
+    @Autowired
+    UserControlService userControl;
+
+    AuthUtils authUtils;
+
+    public CommentsController(){
+        authUtils = new AuthUtils(userControl);
+    }
 
     @PostMapping(path = "/add")
     public @ResponseBody
