@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import LocationPicker from "location-picker";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ProblemsService} from "../../services/problems.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -19,7 +20,8 @@ export class AddProblemComponent implements OnInit {
 
 
     constructor(private fb: FormBuilder,
-                private problemsService: ProblemsService) {
+                private problemsService: ProblemsService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -49,7 +51,9 @@ export class AddProblemComponent implements OnInit {
     }
 
     public sendPhotos(): void {
-        this.problemsService.sendPhotos(JSON.stringify({images: this.upload}), 14).subscribe();
+        this.problemsService.sendPhotos(JSON.stringify({images: this.upload}), this.problemId).subscribe(() => {
+            this.router.navigateByUrl('/main');
+        });
     }
 
     private readThis(inputValue: any): void {
