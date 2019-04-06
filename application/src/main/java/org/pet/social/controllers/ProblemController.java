@@ -10,7 +10,6 @@ import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.exceptions.*;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
-import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,7 +88,7 @@ public class ProblemController extends BaseController {
                 @RequestBody @Valid AddProblemViewModel model
     ) {
 
-        User user = AuthUtils.getCurrentUser(request);
+        User user = authUtils.getCurrentUser(request);
         if (user == null) {
             return unauthorized(response);
         }

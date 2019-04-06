@@ -4,8 +4,6 @@ import org.pet.social.BLL.contracts.CommentsServiceInterface;
 import org.pet.social.common.entity.Comment;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
-import org.pet.social.common.responses.ResponseCodes;
-import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,11 +23,11 @@ public class CommentsController extends BaseController {
                         HttpServletResponse response,
                         @RequestParam String text,
                         @RequestParam int problemId) {
-        User user = AuthUtils.getCurrentUser(request);
+        User user = authUtils.getCurrentUser(request);
         Response resp = null;
 
         if (user == null) {
-            resp = this.error(response, ResponseCodes.DEFAULT_ERROR_CODE, "User is not authorized");
+            resp = this.unauthorized(response);
         } else if (commentService.Add(text, problemId, user.getId())) {
             resp = this.success(response, "");
         } else {

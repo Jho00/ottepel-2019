@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AuthUtils {
     @Autowired
-    private static UserControlInterface userControl;
+    private UserControlInterface userControl;
 
-    public static boolean isLogedIn(HttpServletRequest request) {
+    public boolean isLogedIn(HttpServletRequest request) {
         return request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME) != null;
     }
 
-    public static User getCurrentUser(HttpServletRequest request) {
+    public User getCurrentUser(HttpServletRequest request) {
         String token = request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME);
         if (token == null) {
             return null;

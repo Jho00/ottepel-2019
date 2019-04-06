@@ -4,6 +4,7 @@ import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
 import org.pet.social.common.responses.SuccessResponse;
+import org.pet.social.utils.AuthUtils;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class BaseController {
+    protected AuthUtils authUtils = new AuthUtils();
 
     protected Response error(HttpServletResponse response)  {
         response.setStatus(400);
