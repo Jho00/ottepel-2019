@@ -9,9 +9,7 @@ import org.pet.social.common.entity.ProblemUserApprove;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.enums.Resolvers;
-import org.pet.social.common.exceptions.ObjectNotFoundException;
-import org.pet.social.common.exceptions.ProblemNotApprovedException;
-import org.pet.social.common.exceptions.ProblemShouldNotApprove;
+import org.pet.social.common.exceptions.*;
 import org.pet.social.common.servicesClasses.GeoPoint;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +140,30 @@ public class ProblemService implements ProblemServiceInterface {
         readyproblem.setResolver(resolver);
 
         problems.save(readyproblem);
+    }
+
+    @Override
+    public boolean moderate(Integer id, User moderator) throws NotModeratorException, ObjectNotFoundException, ShouldNotModerateException {
+        if(!moderator.canModerate()) {
+            throw new NotModeratorException("Пользователь не модератор");
+        }
+
+        Optional<Problem> targetProblem = problems.findById(id);
+
+        if(!targetProblem.isPresent()) {
+            throw new ObjectNotFoundException("Пробелма для модерации не обнаружена");
+        }
+
+        Problem problem = targetProblem.get();
+
+        if(problem.getStatus() != ProblemStatus.NOT_CONFIRMED) { // FIXME: change to moderated - status
+            throw new ShouldNotModerateException("Проблема не нуждается в модерации ");
+        }
+
+        problem.setStatus(ProblemStatus.NOT_CONFIRMED);
+
+
+        return problems.save(problem) != null;
     }
 
 
