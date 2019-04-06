@@ -29,7 +29,7 @@ public class CommentsController extends BaseController {
         Response resp = null;
 
         if (user == null) {
-            resp = this.error(response, ResponseCodes.DEFAULT_ERROR_CODE, "User is not authorized");
+            resp = this.unauthorized(response);
         } else if (commentService.Add(text, problemId, user.getId())) {
             resp = this.success(response, "");
         } else {

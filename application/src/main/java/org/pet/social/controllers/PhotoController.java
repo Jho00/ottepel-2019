@@ -2,13 +2,16 @@ package org.pet.social.controllers;
 
 import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.common.entity.Photo;
+import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.SuccessResponse;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -21,15 +24,17 @@ public class PhotoController extends BaseController {
 
     @PostMapping(path = "/add")
     public @ResponseBody
-    Response Add(HttpServletResponse response,
+    Response Add(
+                 HttpServletRequest request,
+                 HttpServletResponse response,
                  @RequestParam("images") MultipartFile[] images,
-                 @RequestParam Integer userId,
                  @RequestParam Integer problemId) {
-        if (images == null || images.length == 0 || userId == null || problemId == null) {
+        User user = AuthUtils.getCurrentUser(request);
+        if (images == null || images.length == 0 || problemId == null) {
             return this.error(response, 400, "Неверный запрос!");
         }
 
-        if (photos.AddMany(images, userId, problemId)) {
+        if (photos.AddMany(images, user.getId(), problemId)) {
             return this.success(response, "", 201);
         }
 
