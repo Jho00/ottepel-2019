@@ -20,62 +20,62 @@ import java.sql.Timestamp;
 
 @RestController
 @RequestMapping(path="/comments")
-public class CommentsController {
+public class CommentsController extends BaseController {
 
     @Autowired
     CommentsServiceInterface commentService;
 
     @PostMapping(path="/add")
-    public @ResponseBody Response addComment (@RequestParam String text,
+    public @ResponseBody Response addComment (HttpServletResponse response, @RequestParam String text,
                                             @RequestParam int problemId,
                                             @RequestParam int userId)
     {
-        Response response = null;
+        Response resp = null;
         if(commentService.Add(text, problemId, userId)){
-            response = new SuccessResponse("");
+            resp = this.success(response, "");
         }else{
-            response = new ErrorResponse();
+            resp = this.error(response, 500);
         }
-        return response;
+        return resp;
     }
 
     @GetMapping(path="/get")
-    public  @ResponseBody Response getComment(@RequestParam int commentId)
+    public  @ResponseBody Response getComment(HttpServletResponse response, @RequestParam int commentId)
     {
-        Response response = null;
+        Response resp = null;
         Comment c = commentService.Get(commentId);
         if(c != null){
-            response = new SuccessResponse(c);
+            resp  = this.success(response, c);
         }else{
-            response = new ErrorResponse();
+            resp = new ErrorResponse();
         }
-        return response;
+        return resp;
     }
 
     @PostMapping(path="/like")
-    public  @ResponseBody Response likeComment(@RequestParam int commentId,
+    public  @ResponseBody Response likeComment(HttpServletResponse response, @RequestParam int commentId,
                                                @RequestParam int userId)
     {
-        Response response = null;
+        Response resp = null;
         if(commentService.Like(userId, commentId)){
-            response = new SuccessResponse("");
+            resp = this.success(response, "");
         }else{
-            response = new ErrorResponse();
+            resp = this.error(response, 500);
         }
-        return response;
+        return resp;
     }
 
     @PostMapping(path="/dislike")
-    public  @ResponseBody Response dislikeComment(@RequestParam int commentId,
+    public  @ResponseBody Response dislikeComment(HttpServletResponse response, @RequestParam int commentId,
                                                @RequestParam int userId)
     {
-        Response response = null;
+        Response resp = null;
         if(commentService.Dislike(userId, commentId)){
-            response = new SuccessResponse("");
+            resp = this.success(response, "");
         }else{
-            response = new ErrorResponse();
+            resp = this.error(response, 500);
         }
-        return response;
+        return resp;
     }
 
    /*
