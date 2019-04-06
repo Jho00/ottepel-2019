@@ -3,17 +3,13 @@ package org.pet.social.controllers;
 import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.User;
-import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
-import org.pet.social.common.responses.SuccessResponse;
-import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/photos")
@@ -29,7 +25,7 @@ public class PhotoController extends BaseController {
                  HttpServletResponse response,
                  @RequestParam("images") MultipartFile[] images,
                  @RequestParam Integer problemId) {
-        User user = AuthUtils.getCurrentUser(request);
+        User user = authUtils.getCurrentUser(request);
         if (images == null || images.length == 0 || problemId == null) {
             return this.error(response, 400, "Неверный запрос!");
         }
