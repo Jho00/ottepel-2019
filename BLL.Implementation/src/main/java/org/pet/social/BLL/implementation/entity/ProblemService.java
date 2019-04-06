@@ -16,6 +16,7 @@ import org.pet.social.common.servicesClasses.GeoPoint;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,8 +36,8 @@ public class ProblemService implements ProblemServiceInterface {
     private ProblemUserApproveService puas;
 
     @Override
-    public List<Problem> getLimited(Integer limit, Integer offset) {
-       return problems.findTopByOrderById(PageRequest.of(offset, limit));
+    public List<Problem> getLimited(ProblemStatus notStatus,Integer limit, Integer offset) {
+       return problems.findTopByStatusNotOrderById(notStatus,PageRequest.of(offset, limit));
     }
 
     @Override

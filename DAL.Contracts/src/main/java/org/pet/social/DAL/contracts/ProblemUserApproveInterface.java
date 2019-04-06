@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ProblemUserApproveInterface extends CrudRepository<Category, Integer> {
+public interface ProblemUserApproveInterface extends CrudRepository<ProblemUserApprove, Integer> {
     List<ProblemUserApprove> findByProblemIdAndUserId(Integer problemId, Integer userId);
     List<ProblemUserApprove> findByProblemIdAndStatus(Integer problemId, ProblemStatus status);
 }

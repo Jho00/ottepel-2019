@@ -48,10 +48,10 @@ public class Problem {
     private int categoryId;
 
     @Column(name = "lat")
-    private double lat;
+    private Double lat;
 
     @Column(name = "lon")
-    private double lon;
+    private Double lon;
 
     @Column(name = "approve_count", columnDefinition = "int default 0")
     private int approveCount;
@@ -132,19 +132,19 @@ public class Problem {
         this.status = status;
     }
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public double getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(double lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
