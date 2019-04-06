@@ -27,6 +27,31 @@
     font-size: 12px;
     padding: 10px;
     display: flex;
+
+    .like-btn,
+    .dislike-btn,
+    .date-place,
+    .comment-btn {
+      margin-right: 20px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .like-btn .material-icons,
+    .dislike-btn .material-icons,
+    .comment-btn .material-icons,
+    .date-place .material-icons {
+      font-size: 16px;
+      margin-right: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .like-btn .material-icons:hover,
+    .dislike-btn .material-icons:hover,
+    .comment-btn .material-icons:hover {
+      opacity: 0.5;
+    }
+
   }
 
   .problem-title {

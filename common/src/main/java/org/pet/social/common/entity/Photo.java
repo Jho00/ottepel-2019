@@ -26,10 +26,9 @@ public class Photo {
     @Lob
     @Column(name="data")
     @NotNull
-    private byte[] data; // ?? Base64
+    private String data; // ?? Base64
 
     @Column(name="image_format")
-    @NotNull
     private String imageFormat;
 
     @Column(name="added_at")
@@ -61,11 +60,11 @@ public class Photo {
         this.problemId = albumId;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -93,7 +92,6 @@ public class Photo {
                 "id=" + id +
                 ", userId=" + userId +
                 ", problemId=" + problemId +
-                ", data='" + data + '\'' +
                 ", addedAt=" + addedAt +
                 '}';
     }
