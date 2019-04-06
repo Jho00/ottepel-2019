@@ -28,4 +28,24 @@ export class ProblemComponent implements OnInit {
         })
     }
 
+    private fetchComments() {
+      return [
+        {
+          text: 'Lorem ipsum',
+          username: 'Nastya',
+          likes: 20
+        },
+        {
+          text: 'Lorem ipsum',
+          username: 'Nastya',
+          likes: 30
+        },
+        {
+          text: 'Lorem ipsum',
+          username: 'Nastya',
+          likes: 60
+        }
+      ]
+    }
+
 }
