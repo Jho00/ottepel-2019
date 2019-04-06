@@ -13,7 +13,7 @@
             <a class="nav-link" *ngIf="currentUser" routerLink="/main" (click)="logout()">Выход</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" *ngIf="currentUser" routerLink="" routerLinkActive="active">Профиль</a>
+            <a class="nav-link" *ngIf="currentUser" routerLink="/main">Профиль</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" *ngIf="!currentUser" routerLink="/signup" routerLinkActive="active">Регистрация</a>

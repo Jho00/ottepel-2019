@@ -1,3 +1,22 @@
 <div class="add-problem">
-    Добавить проблему
+    <div class="content">
+        <form>
+            <div class="form-group">
+                <label for="title">Название проблемы</label>
+                <input type="text" class="form-control" id="title">
+            </div>
+            <div class="form-group">
+                <label for="description">Описание проблемы</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="images">Фотографии</label>
+                <input type="file" accept="image/*"
+                        (change)="onFileChanged($event)"
+                        class="form-control-file" id="images">
+            </div>
+            <div id="map"></div>
+            <button [disabled]="" class="btn btn-primary">Оставить заявку</button>
+        </form>
+    </div>
 </div>

@@ -2,12 +2,12 @@ package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.UserControlInterface;
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
+import org.pet.social.BLL.implementation.UserControlService;
 import org.pet.social.DAL.contracts.UserInterface;
 import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
-import org.pet.social.common.exceptions.ObjectNotFoundException;
-import org.pet.social.common.exceptions.ProblemNotApprovedException;
-import org.pet.social.common.exceptions.ProblemShouldNotApprove;
+import org.pet.social.common.enums.ProblemStatus;
+import org.pet.social.common.exceptions.*;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.pet.social.utils.AuthUtils;
@@ -40,7 +40,7 @@ public class ProblemController extends BaseController {
                  @RequestParam(value = "0", required = false) Integer offset) {
 
         if (id == null) {
-            return this.success(response, problemServiceInterface.getLimited(limit, offset));
+            return this.success(response, problemServiceInterface.getLimited(ProblemStatus.MODERATION,limit, offset));
         }
 
         Optional<Problem> problem = problemServiceInterface.get(id);
@@ -51,7 +51,7 @@ public class ProblemController extends BaseController {
         return this.error(response, 404, "Проблема не обнаружена. Радуйтесь");
     }
 
-    @GetMapping("/problem/getMock")
+    @GetMapping("/problem/")
     public @ResponseBody
     Response getMock(HttpServletResponse response,
                      @RequestParam(required = false) Integer id,
@@ -88,9 +88,14 @@ public class ProblemController extends BaseController {
                 HttpServletResponse response,
                 @RequestBody @Valid AddProblemViewModel model
     ) {
+
         User user = AuthUtils.getCurrentUser(request);
+        if (user == null) {
+            return unauthorized(response);
+        }
+
         if (problemServiceInterface.add(user, model)) {
-            return this.success(response, "Успешно", 201);
+            return this.success(response, problemServiceInterface.getProblem(), 201);
         }
 
         return this.error(response, 501);
@@ -99,8 +104,14 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/approve")
     public @ResponseBody
     Response approve(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userControl.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         try {
-            if (problemServiceInterface.approve(id)) {
+            User user = userControl.getUser();
+            if (problemServiceInterface.approve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
         } catch (ProblemShouldNotApprove problemShouldNotApprove) {
@@ -115,8 +126,14 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/resolve")
     public @ResponseBody
     Response resolve(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userControl.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         try {
-            if (problemServiceInterface.resolve(id)) {
+            User user = userControl.getUser();
+            if (problemServiceInterface.resolve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
         } catch (ProblemNotApprovedException e) {
@@ -125,5 +142,29 @@ public class ProblemController extends BaseController {
             return this.error(response, 404, e.getMessage());
         }
         return this.error(response);
+    }
+
+    @GetMapping("/problems/moderate")
+    public @ResponseBody
+    Response moderate(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userControl.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
+        User user = new User(); // TODO: get from service
+        try {
+            if(problemServiceInterface.moderate(id, user)) {
+                return this.success(response, "Успешно");
+            }
+        } catch (NotModeratorException e) {
+            return this.error(response, 403, e.getMessage());
+        } catch (ObjectNotFoundException e) {
+            return this.error(response, 404, e.getMessage());
+        } catch (ShouldNotModerateException e) {
+            return this.error(response, 400, e.getMessage());
+        }
+
+        return this.error(response, 500);
     }
 }
