@@ -34,9 +34,9 @@ public class Problem {
     @NotNull
     private Timestamp createdAt;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "status", columnDefinition = "int default 0")
-    private ProblemStatus status;
+//    @Enumerated(EnumType.ORDINAL)
+//    @Column(name = "status", columnDefinition = "int default 0")
+//    private ProblemStatus status;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "resolver", columnDefinition = "int default 0")
@@ -124,13 +124,13 @@ public class Problem {
         this.createdAt = createdAt;
     }
 
-    public ProblemStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ProblemStatus status) {
-        this.status = status;
-    }
+//    public ProblemStatus getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(ProblemStatus status) {
+//        this.status = status;
+//    }
 
     public double getLat() {
         return lat;
@@ -174,7 +174,7 @@ public class Problem {
                 ", views=" + views +
                 ", createdAt=" + createdAt +
                 ", categoryId=" + categoryId+
-                ", status=" + status +
+//                ", status=" + status +
                 '}';
     }
 
@@ -188,6 +188,8 @@ public class Problem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, title, text, views, createdAt, status);
+        return Objects.hash(id, userId, title, text, views, createdAt
+//                , status
+        );
     }
 }
