@@ -24,7 +24,9 @@ public class AuthUtils {
         if (token == null) {
             return null;
         }
-
+        if(userControl == null){
+            return null;
+        }
         return userControl.getUserByToken(token);
     }
 }

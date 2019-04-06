@@ -21,6 +21,12 @@ public class AuthController extends BaseController {
     @Autowired
     private UserControlInterface userControl;
 
+    AuthUtils authUtils;
+
+    public AuthController(){
+        authUtils = new AuthUtils(userControl);
+    }
+
     @CrossOrigin(origins="*")
     @GetMapping("/auth/user")
     public Response getCurrentUser(HttpServletResponse response, HttpServletRequest request) {

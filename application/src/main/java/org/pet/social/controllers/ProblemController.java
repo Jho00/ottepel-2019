@@ -31,10 +31,6 @@ public class ProblemController extends BaseController {
 
     AuthUtils authUtils;
 
-    public ProblemController(){
-        authUtils = new AuthUtils(userControl);
-    }
-
     @GetMapping("/problem/get")
     public @ResponseBody
     Response get(HttpServletResponse response,
@@ -91,7 +87,7 @@ public class ProblemController extends BaseController {
                 HttpServletResponse response,
                 @RequestBody @Valid AddProblemViewModel model
     ) {
-
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
         User user = authUtils.getCurrentUser(request);
         if (user == null) {
             return unauthorized(response);
@@ -106,8 +102,11 @@ public class ProblemController extends BaseController {
 
     @GetMapping("/problems/approve")
     public @ResponseBody
-    Response approve(HttpServletResponse response, @RequestParam Integer id) {
-        boolean isLogined = userControl.getUser() != null;
+    Response approve(HttpServletRequest request,HttpServletResponse response, @RequestParam Integer id) {
+
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
+
+        boolean isLogined = authUtils.getCurrentUser(request) != null;
         if (!isLogined) {
             return this.error(response, 401);
         }
