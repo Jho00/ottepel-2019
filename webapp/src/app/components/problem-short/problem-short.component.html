@@ -5,7 +5,12 @@
           [routerLink]="['/problem', problem?.id]">
         {{problem?.title}}
     </span>
-    <div class="problem-short-panel"><span>150</span><span>30</span><span class="date-place">21 марта 2019</span></div>
+    <div class="problem-short-panel">
+      <span class="like-btn"><i class="material-icons">thumb_up</i>150</span>
+      <span class="dislike-btn"><i class="material-icons">thumb_down</i>30</span>
+      <span class="comment-btn"><i class="material-icons">mode_comment</i>30</span>
+      <span class="date-place"><i class="material-icons">access_time</i>21 марта 2019</span>
+    </div>
     <div class="problem-description">
       {{problem?.text}}
     </div>

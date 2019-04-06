@@ -1,15 +1,18 @@
 package org.pet.social.controllers;
 
+import org.pet.social.BLL.contracts.PhotoServiceInterface;
 import org.pet.social.BLL.contracts.UserControlInterface;
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
 import org.pet.social.BLL.implementation.UserControlService;
 import org.pet.social.DAL.contracts.UserInterface;
+import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.exceptions.*;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
+import org.pet.social.common.viewmodels.GetProblemViewModel;
 import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,8 @@ public class ProblemController extends BaseController {
     private ProblemServiceInterface problemServiceInterface;
     @Autowired
     private UserControlInterface userControl;
+    @Autowired
+    private PhotoServiceInterface photos;
 
     AuthUtils authUtils;
 
@@ -44,7 +49,15 @@ public class ProblemController extends BaseController {
 
         Optional<Problem> problem = problemServiceInterface.get(id);
         if (problem.isPresent()) {
-            return this.success(response, problem.get());
+            GetProblemViewModel prob = new GetProblemViewModel();
+
+            List<Photo> phots = photos.GetByProblem(problem.get().getId());
+            String[] arrs = new String[phots.size()];
+            for(int i = 0;i<phots.size();i++) arrs[i] = phots.get(i).getData();
+
+            prob.setProblem(problem.get());
+            prob.setImages(arrs);
+            return this.success(response, prob);
         }
 
         return this.error(response, 404, "Проблема не обнаружена. Радуйтесь");

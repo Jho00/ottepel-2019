@@ -36,6 +36,7 @@ public class PhotoController extends BaseController {
 
         if(authUtils == null) authUtils = new AuthUtils(userControl);
         String[] images = model.getImages();
+
         Integer prob = null;
         try{
             prob = Integer.parseInt(problemId);
@@ -52,9 +53,9 @@ public class PhotoController extends BaseController {
             return this.error(response, 400, "Неверный запрос, изображения не найдены!");
         }
 
-        //if (photos.AddMany(images, user.getId(), prob)) {
-        //    return this.success(response, "", 201);
-        //}
+        if (photos.AddMany(images, user.getId(), prob)) {
+            return this.success(response, "", 201);
+        }
 
         return this.error(response, 500, "norm");
     }
