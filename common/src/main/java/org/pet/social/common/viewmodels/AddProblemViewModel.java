@@ -1,10 +1,13 @@
 package org.pet.social.common.viewmodels;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class AddProblemViewModel {
     private String title;
     private String body;
     private double lat;
     private double lon;
+
 
     public String getTitle() {
         return title;

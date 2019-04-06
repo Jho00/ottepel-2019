@@ -8,6 +8,7 @@ import org.pet.social.common.exceptions.ProblemNotApprovedException;
 import org.pet.social.common.exceptions.ProblemShouldNotApprove;
 import org.pet.social.common.servicesClasses.GeoPoint;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;

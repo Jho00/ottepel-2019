@@ -1,7 +1,9 @@
 package org.pet.social.BLL.implementation.entity;
 
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
+import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.DAL.contracts.ProblemInterface;
+import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
@@ -14,8 +16,11 @@ import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +28,8 @@ import java.util.Optional;
 public class ProblemService implements ProblemServiceInterface {
     @Autowired
     private ProblemInterface problems;
+    @Autowired
+    private PhotoService photos;
 
     @Override
     public List<Problem> getLimited(Integer limit, Integer offset) {
@@ -41,19 +48,18 @@ public class ProblemService implements ProblemServiceInterface {
         problem.setStatus(ProblemStatus.NOT_CONFIRMED);
         problem.setText(model.getBody());
         problem.setTitle(model.getTitle());
-//        problem.setUserId(user.getId());
-        problem.setUserId(1);
+        problem.setUserId(user.getId());
+        //problem.setUserId(1);
         problem.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         problem.setLat(model.getLat());
         problem.setLon(model.getLon());
-
 
         return problems.save(problem) != null;
     }
 
     @Override
     public boolean resolve(Integer id) throws ProblemNotApprovedException, ObjectNotFoundException {
-        var problem = problems.findById(id);
+        Optional<Problem> problem = problems.findById(id);
 
         if(!problem.isPresent()) {
             throw new ObjectNotFoundException("Проблема не найдена");
@@ -78,7 +84,7 @@ public class ProblemService implements ProblemServiceInterface {
 
     @Override
     public boolean approve(Integer id) throws ProblemShouldNotApprove, ObjectNotFoundException {
-        var problem = problems.findById(id);
+        Optional<Problem> problem = problems.findById(id);
 
         if(!problem.isPresent()) {
             throw new ObjectNotFoundException("Проблема не найдена");
@@ -110,7 +116,7 @@ public class ProblemService implements ProblemServiceInterface {
      */
     @Override
     public void setResolver(Integer id, Resolvers resolver) throws ObjectNotFoundException {
-        var problem = problems.findById(id);
+        Optional<Problem> problem = problems.findById(id);
 
         if(!problem.isPresent()) {
             throw new ObjectNotFoundException("Проблема не найдена");
