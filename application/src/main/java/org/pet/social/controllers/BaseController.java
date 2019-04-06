@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class BaseController {
-    protected AuthUtils authUtils = new AuthUtils();
-
     protected Response error(HttpServletResponse response)  {
         response.setStatus(400);
         return new ErrorResponse();

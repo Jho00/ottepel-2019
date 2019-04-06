@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthUtils {
-    @Autowired
     private UserControlInterface userControl;
+
+    public AuthUtils(UserControlInterface userControl){
+        this.userControl = userControl;
+    }
 
     public boolean isLogedIn(HttpServletRequest request) {
         return request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME) != null;

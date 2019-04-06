@@ -10,6 +10,7 @@ import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.exceptions.*;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +27,13 @@ public class ProblemController extends BaseController {
     @Autowired
     private ProblemServiceInterface problemServiceInterface;
     @Autowired
-    private UserInterface users;
-    @Autowired
     private UserControlInterface userControl;
 
+    AuthUtils authUtils;
+
+    public ProblemController(){
+        authUtils = new AuthUtils(userControl);
+    }
 
     @GetMapping("/problem/get")
     public @ResponseBody

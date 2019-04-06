@@ -1,9 +1,11 @@
 package org.pet.social.controllers;
 
+import org.pet.social.BLL.contracts.UserControlInterface;
 import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,13 @@ public class PhotoController extends BaseController {
 
     @Autowired
     PhotoService photos;
+
+    @Autowired
+    private UserControlInterface userControl;
+    AuthUtils authUtils;
+    public PhotoController(){
+        authUtils = new AuthUtils(userControl);
+    }
 
     @PostMapping(path = "/add")
     public @ResponseBody
