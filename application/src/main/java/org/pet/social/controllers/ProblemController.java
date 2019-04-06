@@ -1,9 +1,11 @@
 package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
+import org.pet.social.BLL.implementation.UserControlService;
 import org.pet.social.DAL.contracts.UserInterface;
 import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
+import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.exceptions.*;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
@@ -23,6 +25,8 @@ public class ProblemController extends BaseController {
     private ProblemServiceInterface problemServiceInterface;
     @Autowired
     private UserInterface users;
+    @Autowired
+    private UserControlService userService;
 
 
     @GetMapping("/problem/get")
@@ -33,7 +37,7 @@ public class ProblemController extends BaseController {
                  @RequestParam(value = "0", required = false) Integer offset) {
 
         if (id == null) {
-            return this.success(response, problemServiceInterface.getLimited(limit, offset));
+            return this.success(response, problemServiceInterface.getLimited(ProblemStatus.MODERATION,limit, offset));
         }
 
         Optional<Problem> problem = problemServiceInterface.get(id);
@@ -79,7 +83,12 @@ public class ProblemController extends BaseController {
     Response add(HttpServletResponse response,
                  @RequestBody @Valid AddProblemViewModel model
     ) {
-        User user = users.findById(4).get(); // TODO: get from service
+        boolean isLogined = userService.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
+        User user = userService.getUser(); // TODO: get from service
         if (problemServiceInterface.add(user, model)) {
             return this.success(response, problemServiceInterface.getProblem(), 201);
         }
@@ -90,8 +99,14 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/approve")
     public @ResponseBody
     Response approve(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userService.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         try {
-            if (problemServiceInterface.approve(id)) {
+            User user = userService.getUser();
+            if (problemServiceInterface.approve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
         } catch (ProblemShouldNotApprove problemShouldNotApprove) {
@@ -106,8 +121,14 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/resolve")
     public @ResponseBody
     Response resolve(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userService.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         try {
-            if (problemServiceInterface.resolve(id)) {
+            User user = userService.getUser();
+            if (problemServiceInterface.resolve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
         } catch (ProblemNotApprovedException e) {
@@ -121,7 +142,7 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/moderate")
     public @ResponseBody
     Response moderate(HttpServletResponse response, @RequestParam Integer id) {
-        boolean isLogined = true; //TODO: get from request header
+        boolean isLogined = userService.getUser() != null;
         if (!isLogined) {
             return this.error(response, 401);
         }

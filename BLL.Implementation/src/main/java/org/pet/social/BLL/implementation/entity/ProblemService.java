@@ -5,6 +5,7 @@ import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.DAL.contracts.ProblemInterface;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.Problem;
+import org.pet.social.common.entity.ProblemUserApprove;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.enums.Resolvers;
@@ -13,6 +14,7 @@ import org.pet.social.common.servicesClasses.GeoPoint;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,12 +30,14 @@ public class ProblemService implements ProblemServiceInterface {
     private ProblemInterface problems;
     @Autowired
     private PhotoService photos;
+    @Autowired
+    private ProblemUserApproveService puas;
 
     private Problem problem;
 
     @Override
-    public List<Problem> getLimited(Integer limit, Integer offset) {
-       return problems.findTopByOrderById(PageRequest.of(offset, limit));
+    public List<Problem> getLimited(ProblemStatus notStatus,Integer limit, Integer offset) {
+       return problems.findTopByStatusNotOrderById(notStatus,PageRequest.of(offset, limit));
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ProblemService implements ProblemServiceInterface {
     }
 
     @Override
-    public boolean resolve(Integer id) throws ProblemNotApprovedException, ObjectNotFoundException {
+    public boolean resolve(Integer id, Integer userId) throws ProblemNotApprovedException, ObjectNotFoundException {
         Optional<Problem> problem = problems.findById(id);
 
         if(!problem.isPresent()) {
@@ -72,19 +76,25 @@ public class ProblemService implements ProblemServiceInterface {
             throw new ProblemNotApprovedException("Проблема не была подтверждена");
         }
 
-        readyproblem.setResolveCount(readyproblem.getResolveCount() + 1);
+        List<ProblemUserApprove> approves = puas.GetApprovesByIdAndStatus(id, ProblemStatus.RESOLVED);
 
-        if(readyproblem.getResolveCount() < 5) {
+        readyproblem.setApproveCount(approves.size() + 1);
+
+        if(readyproblem.getApproveCount() < 5){
+            if(puas.Resolve(id, userId)){
+                problems.save(readyproblem);
+            }
             return false;
         }
 
+        readyproblem.setApproveCount(0);
         readyproblem.setStatus(ProblemStatus.RESOLVED);
 
         return problems.save(readyproblem) != null;
     }
 
     @Override
-    public boolean approve(Integer id) throws ProblemShouldNotApprove, ObjectNotFoundException {
+    public boolean approve(Integer id, Integer userId) throws ProblemShouldNotApprove, ObjectNotFoundException {
         Optional<Problem> problem = problems.findById(id);
 
         if(!problem.isPresent()) {
@@ -97,13 +107,18 @@ public class ProblemService implements ProblemServiceInterface {
             throw new ProblemShouldNotApprove("Проблему не надо подтверждать");
         }
 
-        readyproblem.setApproveCount(readyproblem.getApproveCount() + 1);
+        List<ProblemUserApprove> approves = puas.GetApprovesByIdAndStatus(id, ProblemStatus.CONFIRMED);
 
-        if(readyproblem.getApproveCount() < 5) {
+        readyproblem.setApproveCount(approves.size() + 1);
+
+        if(readyproblem.getApproveCount() < 5){
+            if(puas.Approve(id, userId)){
+                problems.save(readyproblem);
+            }
             return false;
         }
 
-
+        readyproblem.setApproveCount(0);
         readyproblem.setStatus(ProblemStatus.CONFIRMED);
 
         return problems.save(readyproblem) != null;

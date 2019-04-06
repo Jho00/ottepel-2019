@@ -1,5 +1,5 @@
 package org.pet.social.common.enums;
 
 public enum ProblemStatus {
-    NOT_CONFIRMED, CONFIRMED, RESOLVED
+    NOT_CONFIRMED, CONFIRMED, MODERATION, RESOLVED
 }
