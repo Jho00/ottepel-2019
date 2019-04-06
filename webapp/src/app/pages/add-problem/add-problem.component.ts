@@ -9,7 +9,7 @@ import LocationPicker from "location-picker";
 })
 export class AddProblemComponent implements OnInit {
     public lp: LocationPicker;
-
+    public selectedFile: File;
     constructor() {
     }
 
@@ -19,7 +19,7 @@ export class AddProblemComponent implements OnInit {
     }
 
     public onFileChanged(event) {
-        const file = event.target.files[0];
+        this.selectedFile = event.target.files[0];
     }
 
 
