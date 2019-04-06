@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
+import {User} from "../../models/user.model";
 
 @Component({
     selector: 'app-login',
@@ -23,7 +24,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     public login(): void {
-        this._subs.push(this.userService.login(this.loginForm.value).subscribe());
+        this._subs.push(this.userService.login(this.loginForm.value).subscribe((data: any) => {
+            this.userService.setUser(new User(data.body));
+        }));
     }
 
     ngOnDestroy(): void {

@@ -39,13 +39,14 @@ public class AuthController extends BaseController {
     @PostMapping("/auth/login")
     public Response login(
             HttpServletResponse httpServletResponse,
+            HttpServletRequest httpServletRequest,
             @RequestBody LoginViewModel loginViewModel) {
         Response response;
 
-        if (httpServletResponse.containsHeader(HTTP_AUTH_TOKEN_HEADER_NAME)) {
+        if (httpServletRequest.getHeader(HTTP_AUTH_TOKEN_HEADER_NAME) != null) {
 
             return success(httpServletResponse,
-                    null,
+                    userControl.getUserByToken(httpServletRequest.getHeader(HTTP_AUTH_TOKEN_HEADER_NAME)),
                     ResponseCodes.AUTH_SUCCESS_CODE,
                     "User is already authorized");
         }
@@ -58,10 +59,11 @@ public class AuthController extends BaseController {
             httpServletResponse.addCookie(cookie);
             userControl.setToken(loginViewModel.email, token);
 
-            return success(httpServletResponse, null);
+            return success(httpServletResponse, userControl.getUser());
         } else {
             return error(httpServletResponse, ResponseCodes.AUTH_ERROR_CODE, AUTH_ERROR_MESSAGE);
         }
+
     }
     @CrossOrigin(origins="*")
     @PostMapping("/auth/register")

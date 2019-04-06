@@ -1,6 +1,5 @@
 package org.pet.social.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
 import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.responses.ErrorResponse;

@@ -13,4 +13,6 @@ public interface UserControlInterface {
     public String getHash(String password, String salt);
 
     public void setToken(String email, String token);
+
+    public User getUser();
 }

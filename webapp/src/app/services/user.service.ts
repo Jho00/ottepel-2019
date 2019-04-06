@@ -9,12 +9,15 @@ import {ENDPOINTS} from "../constants/url.constants";
 })
 export class UserService {
     public currentUserChange: Subject<User> = new Subject<User>();
+    public token: string;
     private currentUser: User;
     constructor(private http: HttpClient) {
     }
 
     public setUser(user: User): void {
         this.currentUser = user;
+        this.token = user.token;
+        localStorage.setItem('token', this.token);
         this.currentUserChange.next(this.currentUser);
     }
 
