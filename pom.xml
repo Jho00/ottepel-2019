@@ -76,6 +76,7 @@
 			</plugin>
 		</plugins>
 		<sourceDirectory>src/main/java, src/main/resources</sourceDirectory>
+		<outputDirectory>target</outputDirectory>
 	</build>
 
 </project>
