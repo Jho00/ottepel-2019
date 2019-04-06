@@ -3,6 +3,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
 import {User} from "../../models/user.model";
+import {Router} from "@angular/router";
+import {comparePassValidator} from "../../helpers/compare-pass.validator";
 
 @Component({
     selector: 'app-signup',
@@ -13,7 +15,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     public signupForm: FormGroup;
     private _subs: Subscription[] = [];
     constructor(private fb: FormBuilder,
-                private userService: UserService) {
+                private userService: UserService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -23,12 +26,13 @@ export class SignupComponent implements OnInit, OnDestroy {
             email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', [Validators.required, Validators.minLength(8)]),
             passwordConfirmation: new FormControl('', [Validators.required, Validators.minLength(8)]),
-        })
+        }, {validators: comparePassValidator})
     }
 
     public signup(): void {
         this._subs.push(this.userService.signup(this.signupForm.value).subscribe((data: any) => {
             this.userService.user = new User(data.body);
+            this.router.navigateByUrl('/main');
         }));
     }
 
