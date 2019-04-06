@@ -23,4 +23,6 @@ public interface ProblemServiceInterface {
      void setResolver(Integer id, Resolvers resolver) throws ObjectNotFoundException;
 
      boolean moderate(Integer id, User moderator) throws NotModeratorException, ObjectNotFoundException, ShouldNotModerateException;
+
+     Problem getProblem();
 }

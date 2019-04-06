@@ -81,7 +81,7 @@ public class ProblemController extends BaseController {
     ) {
         User user = users.findById(4).get(); // TODO: get from service
         if (problemServiceInterface.add(user, model)) {
-            return this.success(response, "Успешно", 201);
+            return this.success(response, problemServiceInterface.getProblem(), 201);
         }
 
         return this.error(response, 501);

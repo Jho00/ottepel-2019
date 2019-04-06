@@ -29,6 +29,8 @@ public class ProblemService implements ProblemServiceInterface {
     @Autowired
     private PhotoService photos;
 
+    private Problem problem;
+
     @Override
     public List<Problem> getLimited(Integer limit, Integer offset) {
        return problems.findTopByOrderById(PageRequest.of(offset, limit));
@@ -52,6 +54,7 @@ public class ProblemService implements ProblemServiceInterface {
         problem.setLat(model.getLat());
         problem.setLon(model.getLon());
 
+        this.problem = problem;
         return problems.save(problem) != null;
     }
 
@@ -151,5 +154,7 @@ public class ProblemService implements ProblemServiceInterface {
         return problems.save(problem) != null;
     }
 
-
+    public Problem getProblem() {
+        return  this.problem;
+    }
 }
