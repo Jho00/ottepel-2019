@@ -2,6 +2,7 @@ package org.pet.social.common.entity;
 
 import org.pet.social.common.enums.Roles;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -146,5 +147,9 @@ public class User {
                 ", registerAt=" + registerAt + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    public boolean canModerate() {
+        return this.role == Roles.ADMIN;
     }
 }
