@@ -31,7 +31,7 @@ public class PhotoService implements PhotoServiceInterface {
         }
 
         Photo p = new Photo();
-        p.setImage(image);
+        p.setData(image);
         p.setImageFormat(imageFormat);
         p.setProblemId(problemId);
         p.setUserId(userId);

@@ -1,6 +1,7 @@
 package org.pet.social.common.viewmodels;
 
 public class AddProblemViewModel {
+
     private String title;
     private String text;
     private double lat;
