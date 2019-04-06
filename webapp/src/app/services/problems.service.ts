@@ -4,6 +4,13 @@ import {Observable, of} from 'rxjs';
 import {Problem} from '../models/problem.model';
 import {ENDPOINTS} from "../constants/url.constants";
 
+const httpOptions = {
+    headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'my-auth-token'
+    })
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +32,6 @@ export class ProblemsService {
   }
 
   public sendPhotos(data: Object, id: number): Observable<Response> {
-      return this.http.post<Response>(`${ENDPOINTS.sendPhotos}/${id}`, data);
+      return this.http.post<Response>(`${ENDPOINTS.sendPhotos}/${id}`, data, httpOptions);
   }
 }

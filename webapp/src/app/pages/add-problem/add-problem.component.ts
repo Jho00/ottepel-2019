@@ -49,7 +49,7 @@ export class AddProblemComponent implements OnInit {
     }
 
     public sendPhotos(): void {
-        this.problemsService.sendPhotos(JSON.stringify(this.upload), 14).subscribe();
+        this.problemsService.sendPhotos(JSON.stringify({images: this.upload}), 14).subscribe();
     }
 
     private readThis(inputValue: any): void {
