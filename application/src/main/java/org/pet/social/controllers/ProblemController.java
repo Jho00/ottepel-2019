@@ -6,9 +6,7 @@ import org.pet.social.DAL.contracts.UserInterface;
 import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
-import org.pet.social.common.exceptions.ObjectNotFoundException;
-import org.pet.social.common.exceptions.ProblemNotApprovedException;
-import org.pet.social.common.exceptions.ProblemShouldNotApprove;
+import org.pet.social.common.exceptions.*;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +83,11 @@ public class ProblemController extends BaseController {
     Response add(HttpServletResponse response,
                  @RequestBody @Valid AddProblemViewModel model
     ) {
+        boolean isLogined = userService.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         User user = userService.getUser(); // TODO: get from service
         if (problemServiceInterface.add(user, model)) {
             return this.success(response, "Успешно", 201);
@@ -96,6 +99,11 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/approve")
     public @ResponseBody
     Response approve(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userService.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         try {
             User user = userService.getUser();
             if (problemServiceInterface.approve(id, user.getId())) {
@@ -113,6 +121,11 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/resolve")
     public @ResponseBody
     Response resolve(HttpServletResponse response, @RequestParam Integer id) {
+        boolean isLogined = userService.getUser() != null;
+        if (!isLogined) {
+            return this.error(response, 401);
+        }
+
         try {
             User user = userService.getUser();
             if (problemServiceInterface.resolve(id, user.getId())) {
@@ -129,7 +142,7 @@ public class ProblemController extends BaseController {
     @GetMapping("/problems/moderate")
     public @ResponseBody
     Response moderate(HttpServletResponse response, @RequestParam Integer id) {
-        boolean isLogined = true; //TODO: get from request header
+        boolean isLogined = userService.getUser() != null;
         if (!isLogined) {
             return this.error(response, 401);
         }
