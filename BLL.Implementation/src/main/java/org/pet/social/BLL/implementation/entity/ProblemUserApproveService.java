@@ -17,9 +17,9 @@ import java.util.List;
 public class ProblemUserApproveService implements ProblemUserApproveServiceInterface {
 
     @Autowired
-    UserInterface users;
+    private UserInterface users;
     @Autowired
-    ProblemUserApproveInterface probUsers;
+    private ProblemUserApproveInterface probUsers;
 
     public boolean Approve(Integer problemId, Integer userId){
         return CreateStatus(problemId,userId,ProblemStatus.CONFIRMED);
@@ -30,6 +30,10 @@ public class ProblemUserApproveService implements ProblemUserApproveServiceInter
 
     public boolean Moderate(Integer problemId, Integer userId){
         return CreateStatus(problemId,userId,ProblemStatus.MODERATION);
+    }
+
+    public List<ProblemUserApprove> GetApprovesByIdAndStatus(Integer problemId, ProblemStatus forStatus){
+        return probUsers.findByProblemIdAndStatus(problemId, forStatus);
     }
 
     boolean CreateStatus(Integer problemId, Integer userId, ProblemStatus status){

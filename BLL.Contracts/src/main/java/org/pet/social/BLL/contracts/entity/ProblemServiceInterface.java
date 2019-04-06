@@ -19,8 +19,8 @@ public interface ProblemServiceInterface {
 
      boolean add(User user, AddProblemViewModel model);
 
-     boolean resolve(Integer id) throws ProblemNotApprovedException, ObjectNotFoundException;
-     boolean approve(Integer id) throws ProblemShouldNotApprove, ObjectNotFoundException;
+     boolean resolve(Integer id, Integer userId) throws ProblemNotApprovedException, ObjectNotFoundException;
+     boolean approve(Integer id, Integer userId) throws ProblemShouldNotApprove, ObjectNotFoundException;
 
      void setResolver(Integer id, Resolvers resolver) throws ObjectNotFoundException;
 }
