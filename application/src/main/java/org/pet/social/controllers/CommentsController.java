@@ -23,16 +23,13 @@ public class CommentsController extends BaseController {
 
     AuthUtils authUtils;
 
-    public CommentsController(){
-        authUtils = new AuthUtils(userControl);
-    }
-
     @PostMapping(path = "/add")
     public @ResponseBody
     Response addComment(HttpServletRequest request,
                         HttpServletResponse response,
                         @RequestParam String text,
                         @RequestParam int problemId) {
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
         User user = authUtils.getCurrentUser(request);
         Response resp = null;
 

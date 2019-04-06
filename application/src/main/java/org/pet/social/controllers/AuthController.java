@@ -23,14 +23,10 @@ public class AuthController extends BaseController {
 
     AuthUtils authUtils;
 
-    public AuthController(){
-        authUtils = new AuthUtils(userControl);
-    }
-
     @CrossOrigin(origins="*")
     @GetMapping("/auth/user")
     public Response getCurrentUser(HttpServletResponse response, HttpServletRequest request) {
-
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
         User user = authUtils.getCurrentUser(request);
         if (user != null) {
             return success(response, user);
@@ -45,6 +41,7 @@ public class AuthController extends BaseController {
             HttpServletResponse httpServletResponse,
             HttpServletRequest httpServletRequest,
             @RequestBody LoginViewModel loginViewModel) {
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
         if (authUtils.isLogedIn(httpServletRequest)) {
 
             return success(httpServletResponse,
