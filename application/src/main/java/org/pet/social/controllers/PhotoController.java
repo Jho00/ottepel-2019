@@ -11,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/photos")
@@ -32,14 +30,10 @@ public class PhotoController extends BaseController {
     Response Add(
                  HttpServletRequest request,
                  HttpServletResponse response,
-                 @PathVariable String problemId) {
-        if(authUtils == null) authUtils = new AuthUtils(userControl);
+                 @PathVariable String problemId,
+                 @RequestParam String[] images) {
 
-        final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-        List<MultipartFile> images = multiRequest.getFiles("images");
-        if(images != null)
-        System.out.println("fils: "+images.size());
-        else System.out.println("No files");
+        if(authUtils == null) authUtils = new AuthUtils(userControl);
 
         Integer prob = null;
         try{
@@ -53,15 +47,15 @@ public class PhotoController extends BaseController {
             return this.error(response, 401, "Требуется авторизация!");
         }
 
-        if (images == null || images.size() == 0) {
+        if (images == null || images.length == 0) {
             return this.error(response, 400, "Неверный запрос, изображения не найдены!");
         }
 
-        if (photos.AddMany(images, user.getId(), prob)) {
-            return this.success(response, "", 201);
-        }
+        //if (photos.AddMany(images, user.getId(), prob)) {
+        //    return this.success(response, "", 201);
+        //}
 
-        return this.error(response, 500);
+        return this.error(response, 500, "norm");
     }
 
     @GetMapping(path = "/get")

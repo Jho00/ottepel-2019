@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PhotoService implements PhotoServiceInterface {
@@ -45,8 +44,8 @@ public class PhotoService implements PhotoServiceInterface {
         return p;
     }
 
-    public boolean AddMany(List<MultipartFile> images, int problemId, int userId) {
-        ArrayList<Photo> pics = new ArrayList<>(images.size());
+    public boolean AddMany(MultipartFile[] images, int problemId, int userId) {
+        ArrayList<Photo> pics = new ArrayList<>(images.length);
         try {
             for (MultipartFile file : images) {
                 Photo p = Add(file.getBytes(), file.getContentType(), userId, problemId);
@@ -55,7 +54,7 @@ public class PhotoService implements PhotoServiceInterface {
                 }
             }
 
-            if (pics.size() != images.size()) {
+            if (pics.size() != images.length) {
                 return false;
             }
         } catch (IOException ex) {
