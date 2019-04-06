@@ -16,7 +16,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this._subs.push(this.problemsService.getProblemsList().subscribe(data => this.problemsList = data));
+        this._subs.push(this.problemsService.getProblemsList().subscribe((data: any) => this.problemsList = data.body));
     }
 
     ngOnDestroy(): void {

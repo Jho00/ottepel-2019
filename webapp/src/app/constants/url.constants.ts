@@ -6,5 +6,7 @@ export const ENDPOINTS = {
     login: `${appUrl}/auth/login`,
     register: `${appUrl}/auth/register`,
     logout: `${appUrl}/auth/logout`,
-    getCurrentUser: `${appUrl}/auth/user`
+    getCurrentUser: `${appUrl}/auth/user`,
+    getProblemsList: `${appUrl}/problem/`,
+    sendProblem:  `${appUrl}/problem`
 };

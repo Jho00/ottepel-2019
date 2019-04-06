@@ -46,7 +46,7 @@ public class ProblemController extends BaseController {
         return this.error(response, 404, "Проблема не обнаружена. Радуйтесь");
     }
 
-    @GetMapping("/problem/getMock")
+    @GetMapping("/problem/")
     public @ResponseBody
     Response getMock(HttpServletResponse response,
                      @RequestParam(required = false) Integer id,
