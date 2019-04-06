@@ -15,7 +15,7 @@ public class UserControlService implements UserControlInterface {
     @Autowired
     private UserInterface userInterface;
 
-    private User user;
+    private static User currentUser;
 
     private static ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 
@@ -31,12 +31,17 @@ public class UserControlService implements UserControlInterface {
 
     @Override
     public boolean passwordValueEquals(String email, String password) {
-        user = userInterface.findByEmail(email).get(0);
+        User user = userInterface.findByEmail(email).get(0);
         return ((password + user.getSalt()).hashCode() + "").equals(user.getPasswordHash());
     }
 
     public User getUser() {
-        return user;
+        return currentUser;
+    }
+
+    @Override
+    public void setUser(User user) {
+        currentUser = user;
     }
 
     @Override
@@ -65,6 +70,7 @@ public class UserControlService implements UserControlInterface {
     public void setToken(String email, String token) {
         User user = userInterface.findByEmail(email).get(0);
         user.setToken(token);
+        setUser(user);
         userInterface.save(user);
     }
 }

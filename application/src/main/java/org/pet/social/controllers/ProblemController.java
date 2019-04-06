@@ -1,5 +1,6 @@
 package org.pet.social.controllers;
 
+import org.pet.social.BLL.contracts.UserControlInterface;
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
 import org.pet.social.DAL.contracts.UserInterface;
 import org.pet.social.common.entity.Problem;
@@ -9,9 +10,11 @@ import org.pet.social.common.exceptions.ProblemNotApprovedException;
 import org.pet.social.common.exceptions.ProblemShouldNotApprove;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -25,6 +28,8 @@ public class ProblemController extends BaseController {
     private ProblemServiceInterface problemServiceInterface;
     @Autowired
     private UserInterface users;
+    @Autowired
+    private UserControlInterface userControl;
 
 
     @GetMapping("/problem/get")
@@ -78,10 +83,12 @@ public class ProblemController extends BaseController {
 
     @PostMapping("/problems/add")
     public @ResponseBody
-    Response add(HttpServletResponse response,
-                 @RequestBody @Valid AddProblemViewModel model
+    Response add(
+                HttpServletRequest request,
+                HttpServletResponse response,
+                @RequestBody @Valid AddProblemViewModel model
     ) {
-        User user = users.findById(4).get(); // TODO: get from service
+        User user = AuthUtils.getCurrentUser(request);
         if (problemServiceInterface.add(user, model)) {
             return this.success(response, "Успешно", 201);
         }

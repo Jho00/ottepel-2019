@@ -15,4 +15,5 @@ public interface UserControlInterface {
     public void setToken(String email, String token);
 
     public User getUser();
+    public void setUser(User user);
 }

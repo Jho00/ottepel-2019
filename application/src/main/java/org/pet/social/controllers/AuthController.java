@@ -5,6 +5,7 @@ import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
+import org.pet.social.utils.AuthUtils;
 import org.pet.social.viewmodels.LoginViewModel;
 import org.pet.social.viewmodels.RegisterViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,9 @@ public class AuthController extends BaseController {
     @GetMapping("/auth/user")
     public Response getCurrentUser(HttpServletResponse response, HttpServletRequest request) {
 
-        String token = request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME);
-
-        if (token != null) {
-            return success(response, userControl.getUserByToken(token));
+        User user = AuthUtils.getCurrentUser(request);
+        if (user != null) {
+            return success(response, user);
         }
 
         return error(response, ResponseCodes.AUTH_ERROR_CODE, "User is not logged in");
@@ -39,10 +39,10 @@ public class AuthController extends BaseController {
             HttpServletResponse httpServletResponse,
             HttpServletRequest httpServletRequest,
             @RequestBody LoginViewModel loginViewModel) {
-        if (httpServletRequest.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME) != null) {
+        if (AuthUtils.isLogedIn(httpServletRequest)) {
 
             return success(httpServletResponse,
-                    userControl.getUserByToken(httpServletRequest.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME)),
+                    AuthUtils.getCurrentUser(httpServletRequest),
                     ResponseCodes.AUTH_SUCCESS_CODE,
                     "User is already authorized");
         }
@@ -50,9 +50,6 @@ public class AuthController extends BaseController {
         if (userControl.passwordValueEquals(loginViewModel.email, loginViewModel.password)) {
 
             String token = userControl.getToken();
-            Cookie cookie = new Cookie(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME, token);
-            cookie.setMaxAge(3600);
-            httpServletResponse.addCookie(cookie);
             userControl.setToken(loginViewModel.email, token);
 
             return success(httpServletResponse, userControl.getUser());

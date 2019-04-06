@@ -1,22 +1,16 @@
 package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.CommentsServiceInterface;
-import org.pet.social.BLL.implementation.CommentsService;
-import org.pet.social.DAL.contracts.CommentInterface;
-import org.pet.social.DAL.contracts.ProblemInterface;
-import org.pet.social.DAL.contracts.UserInterface;
 import org.pet.social.common.entity.Comment;
-import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.User;
-import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
-import org.pet.social.common.responses.SuccessResponse;
+import org.pet.social.common.responses.ResponseCodes;
+import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
 
 @RestController
 @RequestMapping(path = "/comments")
@@ -27,11 +21,16 @@ public class CommentsController extends BaseController {
 
     @PostMapping(path = "/add")
     public @ResponseBody
-    Response addComment(HttpServletResponse response, @RequestParam String text,
-                        @RequestParam int problemId,
-                        @RequestParam int userId) {
+    Response addComment(HttpServletRequest request,
+                        HttpServletResponse response,
+                        @RequestParam String text,
+                        @RequestParam int problemId) {
+        User user = AuthUtils.getCurrentUser(request);
         Response resp = null;
-        if (commentService.Add(text, problemId, userId)) {
+
+        if (user == null) {
+            resp = this.error(response, ResponseCodes.DEFAULT_ERROR_CODE, "User is not authorized");
+        } else if (commentService.Add(text, problemId, user.getId())) {
             resp = this.success(response, "");
         } else {
             resp = this.error(response, 500);
