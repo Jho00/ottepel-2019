@@ -2,7 +2,9 @@
     <div class="content">
         <span class="title">{{problem?.title}}</span>
         <div class="description">
-            {{problem?.body}}
+            {{problem?.text}}
         </div>
+
+      <app-comment *ngFor="let comment of fetchComments()" [comment]="comment" class="my-comment"></app-comment>
     </div>
 </div>
