@@ -2,14 +2,11 @@ package org.pet.social.controllers;
 
 import org.pet.social.BLL.contracts.UserControlInterface;
 import org.pet.social.common.entity.User;
-import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
-import org.pet.social.common.responses.SuccessResponse;
 import org.pet.social.viewmodels.LoginViewModel;
 import org.pet.social.viewmodels.RegisterViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -22,22 +19,22 @@ public class AuthController extends BaseController {
     @Autowired
     private UserControlInterface userControl;
 
-    private static final String HTTP_AUTH_TOKEN_HEADER_NAME = "auth_token";
+    private static final String HTTP_AUTH_TOKEN_HEADER_NAME = "Authorization";
 
     public static final String AUTH_ERROR_MESSAGE = "Authentication failed";
 
     @GetMapping("/auth/user")
-    public Response getCurrentUser(HttpServletRequest request) {
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName() == HTTP_AUTH_TOKEN_HEADER_NAME) {
-                    return new SuccessResponse(userControl.getUserByToken(cookie.getValue()));
-                }
-            }
+    public Response getCurrentUser(HttpServletResponse response, HttpServletRequest request) {
+
+        String token = request.getHeader(HTTP_AUTH_TOKEN_HEADER_NAME);
+
+        if (token != null) {
+            return success(response, userControl.getUserByToken(token));
         }
 
-        return new ErrorResponse(ResponseCodes.AUTH_ERROR_CODE, "User is not logged in");
+        return error(response, ResponseCodes.AUTH_ERROR_CODE, "User is not logged in");
     }
+
     @CrossOrigin(origins="*")
     @PostMapping("/auth/login")
     public Response login(
