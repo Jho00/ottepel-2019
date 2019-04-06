@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
+import {User} from "../../models/user.model";
 
 @Component({
     selector: 'app-signup',
@@ -26,7 +27,9 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
 
     public signup(): void {
-        this._subs.push(this.userService.signup(this.signupForm.value).subscribe());
+        this._subs.push(this.userService.signup(this.signupForm.value).subscribe((data: any) => {
+            this.userService.user = new User(data.body);
+        }));
     }
 
     ngOnDestroy(): void {

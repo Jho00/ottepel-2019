@@ -11,7 +11,9 @@ export class InterceptorService implements HttpInterceptor{
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       if(localStorage.getItem('token') !== null) {
-          request.headers.append('token', localStorage.getItem('token'));
+          request = request.clone({
+              headers: request.headers.set('Authorization', localStorage.getItem('token'))
+          })
       }
 
       return next.handle(request);

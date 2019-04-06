@@ -23,6 +23,7 @@ public class AuthController extends BaseController {
 
     public static final String AUTH_ERROR_MESSAGE = "Authentication failed";
 
+    @CrossOrigin(origins="*")
     @GetMapping("/auth/user")
     public Response getCurrentUser(HttpServletResponse response, HttpServletRequest request) {
 

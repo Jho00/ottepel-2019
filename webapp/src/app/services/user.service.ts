@@ -14,11 +14,18 @@ export class UserService {
     constructor(private http: HttpClient) {
     }
 
-    public setUser(user: User): void {
+    set user(user: User) {
+        if(user === null) {
+            localStorage.removeItem('token');
+        }
         this.currentUser = user;
         this.token = user.token;
         localStorage.setItem('token', this.token);
         this.currentUserChange.next(this.currentUser);
+    }
+
+    get user(): User {
+        return this.currentUser;
     }
 
     public resetCurrentUser(): void {
