@@ -44,9 +44,6 @@ public class User {
     @Column(name="salt")
     private String salt;
 
-    @Column(name="birthday")
-    private Timestamp birthday;
-
     @Column(name="register_at")
     private Timestamp registerAt;
 
@@ -106,14 +103,6 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public Timestamp getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Timestamp birthday) {
-        this.birthday = birthday;
     }
 
     public Timestamp getRegisterAt() {

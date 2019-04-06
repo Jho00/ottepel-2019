@@ -38,28 +38,22 @@ public class AuthController extends BaseController {
 
         return new ErrorResponse(ResponseCodes.AUTH_ERROR_CODE, "User is not logged in");
     }
-
+    @CrossOrigin(origins="*")
     @PostMapping("/auth/login")
-    public ResponseEntity<Response> login(
-            @RequestBody LoginViewModel loginViewModel,
-            HttpServletResponse httpServletResponse) {
+    public Response login(
+            HttpServletResponse httpServletResponse,
+            @RequestBody LoginViewModel loginViewModel) {
         Response response;
 
         if (httpServletResponse.containsHeader(HTTP_AUTH_TOKEN_HEADER_NAME)) {
 
-            response = new SuccessResponse(
+            return success(httpServletResponse,
                     null,
                     ResponseCodes.AUTH_SUCCESS_CODE,
                     "User is already authorized");
-
-            return ResponseEntity
-                    .ok()
-                    .body(response);
         }
 
         if (userControl.passwordValueEquals(loginViewModel.email, loginViewModel.password)) {
-            response = new SuccessResponse(
-                    null);
 
             String token = userControl.getToken();
             Cookie cookie = new Cookie(HTTP_AUTH_TOKEN_HEADER_NAME, token);
@@ -67,40 +61,34 @@ public class AuthController extends BaseController {
             httpServletResponse.addCookie(cookie);
             userControl.setToken(loginViewModel.email, token);
 
-            return ResponseEntity
-                    .ok()
-                    .body(response);
+            return success(httpServletResponse, null);
         } else {
-            response = new ErrorResponse(ResponseCodes.AUTH_ERROR_CODE, AUTH_ERROR_MESSAGE);
-
-            return ResponseEntity
-                    .ok()
-                    .body(response);
+            return error(httpServletResponse, ResponseCodes.AUTH_ERROR_CODE, AUTH_ERROR_MESSAGE);
         }
     }
-
+    @CrossOrigin(origins="*")
     @PostMapping("/auth/register")
-    public Response register(@RequestBody RegisterViewModel registerViewModel) {
+    public Response register(HttpServletResponse response, @RequestBody RegisterViewModel registerViewModel) {
 
         if (registerViewModel.password.length() < 8)
-            return new ErrorResponse("Password is too short");
+            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Password is too short");
 
-        if (registerViewModel.password != registerViewModel.passwordConfirmation)
-            return new ErrorResponse("Password wasn`t confirmed");
+        if (!registerViewModel.password.equals(registerViewModel.passwordConfirmation))
+            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Password wasn`t confirmed");
 
         User user = new User();
 
         user.setFirstName(registerViewModel.firstName);
         user.setLastName(registerViewModel.lastName);
         user.setEmail(registerViewModel.email);
-        user.setBirthday(Timestamp.valueOf(registerViewModel.dateOfBirth));
+        user.setRegisterAt(new Timestamp(System.currentTimeMillis()));
         user.setSalt(registerViewModel.email.substring(0,2));
         user.setPasswordHash(userControl.getHash(registerViewModel.password, user.getSalt()));
 
         if (!userControl.validateUser(user))
-            return new ErrorResponse("Register data is not valid");
+            return error(response,ResponseCodes.DEFAULT_ERROR_CODE,"Register data is not valid");
 
         userControl.addUser(user);
-        return new SuccessResponse(null);
+        return success(response, user);
     }
 }

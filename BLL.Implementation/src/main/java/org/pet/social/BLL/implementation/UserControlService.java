@@ -30,7 +30,7 @@ public class UserControlService implements UserControlInterface {
     @Override
     public boolean passwordValueEquals(String email, String password) {
         User user = userInterface.findByEmail(email).get(0);
-        return (password + user.getSalt()).hashCode() + "" == user.getPasswordHash();
+        return ((password + user.getSalt()).hashCode() + "").equals(user.getPasswordHash());
     }
 
     @Override
