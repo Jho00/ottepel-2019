@@ -18,13 +18,17 @@ public class PhotoService implements PhotoServiceInterface {
     PhotoInterface photos;
     private final String[] photoAcceptableFormats = {"image/jpeg"};
 
-    public Photo Add(byte[] image, String imageFormat,int userId, int problemId){
+    public Photo Add(byte[] image, String imageFormat, int userId, int problemId) {
 
         boolean rightFormat = false;
-        for(String f : photoAcceptableFormats){
-            if(f.equals(imageFormat)) rightFormat = true;
+        for (String f : photoAcceptableFormats) {
+            if (f.equals(imageFormat)) {
+                rightFormat = true;
+            }
         }
-        if(!rightFormat) return null;
+        if (!rightFormat) {
+            return null;
+        }
 
         Photo p = new Photo();
         p.setImage(image);
@@ -34,7 +38,9 @@ public class PhotoService implements PhotoServiceInterface {
         p.setAddedAt(new Timestamp(System.currentTimeMillis()));
         p = photos.save(p);
 
-        if(p == null) return null;
+        if (p == null) {
+            return null;
+        }
         return p;
     }
 
@@ -43,19 +49,21 @@ public class PhotoService implements PhotoServiceInterface {
         try {
             for (MultipartFile file : images) {
                 Photo p = Add(file.getBytes(), file.getContentType(), userId, problemId);
-                if(p!=null) pics.add(p);
+                if (p != null) {
+                    pics.add(p);
+                }
             }
 
-            if(pics.size() != images.length){
+            if (pics.size() != images.length) {
                 return false;
             }
-        }catch(IOException ex){
+        } catch (IOException ex) {
             return false;
         }
         return true;
     }
 
-    public Photo Get(int photoId){
+    public Photo Get(int photoId) {
         return photos.findById(photoId).orElse(null);
     }
 }

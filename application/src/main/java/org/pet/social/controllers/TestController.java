@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 
 @RestController
-@RequestMapping(path="/tests")
+@RequestMapping(path = "/tests")
 public class TestController {
     @Autowired
     UserInterface users;
@@ -29,44 +29,40 @@ public class TestController {
     @Autowired
     CommentInterface comments;
 
-    @GetMapping(path="/user")
+    @GetMapping(path = "/user")
     public @ResponseBody
-    Response GetUser(){
+    Response GetUser() {
         Iterator<User> it = users.findAll().iterator();
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             return new SuccessResponse(it.next());
-        }
-        else return new ErrorResponse();
+        } else return new ErrorResponse();
     }
 
-    @GetMapping(path="/problem")
+    @GetMapping(path = "/problem")
     public @ResponseBody
-    Response GetProblem(){
+    Response GetProblem() {
         Iterator<Problem> it = problems.findAll().iterator();
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             return new SuccessResponse(it.next());
-        }
-        else return new ErrorResponse();
+        } else return new ErrorResponse();
     }
 
-    @GetMapping(path="/comment")
+    @GetMapping(path = "/comment")
     public @ResponseBody
-    Response GetComment(){
+    Response GetComment() {
         Iterator<Comment> it = comments.findAll().iterator();
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             return new SuccessResponse(it.next());
-        }
-        else return new ErrorResponse();
+        } else return new ErrorResponse();
     }
 
-    @GetMapping(path="/photo")
+    @GetMapping(path = "/photo")
     public @ResponseBody
-    Response GetPhoto(){
+    Response GetPhoto() {
         Iterator<Photo> it = photos.findAll().iterator();
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             return new SuccessResponse(it.next());
-        }
-        else return new ErrorResponse();
+        } else return new ErrorResponse();
     }
 
 }

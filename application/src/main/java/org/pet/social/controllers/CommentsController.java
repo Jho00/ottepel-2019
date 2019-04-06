@@ -19,60 +19,60 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 @RestController
-@RequestMapping(path="/comments")
+@RequestMapping(path = "/comments")
 public class CommentsController extends BaseController {
 
     @Autowired
     CommentsServiceInterface commentService;
 
-    @PostMapping(path="/add")
-    public @ResponseBody Response addComment (HttpServletResponse response, @RequestParam String text,
-                                            @RequestParam int problemId,
-                                            @RequestParam int userId)
-    {
+    @PostMapping(path = "/add")
+    public @ResponseBody
+    Response addComment(HttpServletResponse response, @RequestParam String text,
+                        @RequestParam int problemId,
+                        @RequestParam int userId) {
         Response resp = null;
-        if(commentService.Add(text, problemId, userId)){
+        if (commentService.Add(text, problemId, userId)) {
             resp = this.success(response, "");
-        }else{
+        } else {
             resp = this.error(response, 500);
         }
         return resp;
     }
 
-    @GetMapping(path="/get")
-    public  @ResponseBody Response getComment(HttpServletResponse response, @RequestParam int commentId)
-    {
+    @GetMapping(path = "/get")
+    public @ResponseBody
+    Response getComment(HttpServletResponse response, @RequestParam int commentId) {
         Response resp = null;
         Comment c = commentService.Get(commentId);
-        if(c != null){
-            resp  = this.success(response, c);
-        }else{
-            resp = new ErrorResponse();
+        if (c != null) {
+            resp = this.success(response, c);
+        } else {
+            resp = this.error(response);
         }
         return resp;
     }
 
-    @PostMapping(path="/like")
-    public  @ResponseBody Response likeComment(HttpServletResponse response, @RequestParam int commentId,
-                                               @RequestParam int userId)
-    {
+    @PostMapping(path = "/like")
+    public @ResponseBody
+    Response likeComment(HttpServletResponse response, @RequestParam int commentId,
+                         @RequestParam int userId) {
         Response resp = null;
-        if(commentService.Like(userId, commentId)){
+        if (commentService.Like(userId, commentId)) {
             resp = this.success(response, "");
-        }else{
+        } else {
             resp = this.error(response, 500);
         }
         return resp;
     }
 
-    @PostMapping(path="/dislike")
-    public  @ResponseBody Response dislikeComment(HttpServletResponse response, @RequestParam int commentId,
-                                               @RequestParam int userId)
-    {
+    @PostMapping(path = "/dislike")
+    public @ResponseBody
+    Response dislikeComment(HttpServletResponse response, @RequestParam int commentId,
+                            @RequestParam int userId) {
         Response resp = null;
-        if(commentService.Dislike(userId, commentId)){
+        if (commentService.Dislike(userId, commentId)) {
             resp = this.success(response, "");
-        }else{
+        } else {
             resp = this.error(response, 500);
         }
         return resp;
