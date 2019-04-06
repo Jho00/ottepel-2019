@@ -102,14 +102,17 @@ public class ProblemController extends BaseController {
 
     @GetMapping("/problems/approve")
     public @ResponseBody
-    Response approve(HttpServletResponse response, @RequestParam Integer id) {
-        boolean isLogined = userControl.getUser() != null;
-        if (!isLogined) {
-            return this.error(response, 401);
+    Response approve(
+                     HttpServletRequest request,
+                     HttpServletResponse response,
+                     @RequestParam Integer id) {
+        User user = authUtils.getCurrentUser(request);
+
+        if (user == null) {
+            return this.unauthorized(response);
         }
 
         try {
-            User user = userControl.getUser();
             if (problemServiceInterface.approve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
@@ -124,14 +127,17 @@ public class ProblemController extends BaseController {
 
     @GetMapping("/problems/resolve")
     public @ResponseBody
-    Response resolve(HttpServletResponse response, @RequestParam Integer id) {
-        boolean isLogined = userControl.getUser() != null;
-        if (!isLogined) {
-            return this.error(response, 401);
+    Response resolve(
+                     HttpServletRequest request,
+                     HttpServletResponse response,
+                     @RequestParam Integer id) {
+        User user = authUtils.getCurrentUser(request);
+
+        if (user == null) {
+            return this.unauthorized(response);
         }
 
         try {
-            User user = userControl.getUser();
             if (problemServiceInterface.resolve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
@@ -145,13 +151,16 @@ public class ProblemController extends BaseController {
 
     @GetMapping("/problems/moderate")
     public @ResponseBody
-    Response moderate(HttpServletResponse response, @RequestParam Integer id) {
-        boolean isLogined = userControl.getUser() != null;
-        if (!isLogined) {
-            return this.error(response, 401);
+    Response moderate(
+                      HttpServletRequest request,
+                      HttpServletResponse response,
+                      @RequestParam Integer id) {
+        User user = authUtils.getCurrentUser(request);
+
+        if (user == null) {
+            return this.unauthorized(response);
         }
 
-        User user = new User(); // TODO: get from service
         try {
             if(problemServiceInterface.moderate(id, user)) {
                 return this.success(response, "Успешно");

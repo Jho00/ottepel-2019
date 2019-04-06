@@ -1,15 +1,16 @@
 package org.pet.social.utils;
 
 import org.pet.social.BLL.contracts.UserControlInterface;
+import org.pet.social.BLL.implementation.UserControlService;
 import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthUtils {
-    @Autowired
-    private UserControlInterface userControl;
+    private UserControlService userControl = new UserControlService();
 
     public boolean isLogedIn(HttpServletRequest request) {
         return request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME) != null;

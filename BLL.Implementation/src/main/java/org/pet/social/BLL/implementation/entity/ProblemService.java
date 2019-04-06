@@ -3,24 +3,19 @@ package org.pet.social.BLL.implementation.entity;
 import org.pet.social.BLL.contracts.entity.ProblemServiceInterface;
 import org.pet.social.BLL.implementation.PhotoService;
 import org.pet.social.DAL.contracts.ProblemInterface;
-import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.Problem;
 import org.pet.social.common.entity.ProblemUserApprove;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.enums.Resolvers;
 import org.pet.social.common.exceptions.*;
-import org.pet.social.common.servicesClasses.GeoPoint;
+import org.pet.social.common.utils.CategoryClassifier;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,10 +45,10 @@ public class ProblemService implements ProblemServiceInterface {
     public boolean add(User user, AddProblemViewModel model) {
         Problem problem = new Problem();
         problem.setStatus(ProblemStatus.NOT_CONFIRMED);
-        problem.setText(model.getBody());
+        problem.setText(model.getText());
         problem.setTitle(model.getTitle());
         problem.setUserId(user.getId());
-        //problem.setUserId(1);
+        problem.setGovernmentStructure(CategoryClassifier.classify(model.getText(), model.getTitle()));
         problem.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         problem.setLat(model.getLat());
         problem.setLon(model.getLon());
