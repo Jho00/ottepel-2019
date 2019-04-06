@@ -3,6 +3,7 @@ export interface IUser {
     firstName: string,
     lastName: string,
     email: string,
+    token: string
 }
 
 export class User implements IUser{
@@ -10,6 +11,7 @@ export class User implements IUser{
     firstName: string;
     lastName: string;
     email: string;
+    token: string;
 
     constructor(data: IUser) {
         Object.assign(this, data);

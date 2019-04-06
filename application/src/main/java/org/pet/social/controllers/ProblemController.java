@@ -11,13 +11,15 @@ import org.pet.social.common.responses.Response;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class ProblemController extends BaseController {
     @Autowired
     private ProblemServiceInterface problemServiceInterface;
@@ -32,12 +34,42 @@ public class ProblemController extends BaseController {
                  @RequestParam(value = "100", required = false) Integer limit,
                  @RequestParam(value = "0", required = false) Integer offset) {
 
-        if(id == null) {
+        if (id == null) {
             return this.success(response, problemServiceInterface.getLimited(limit, offset));
         }
 
         Optional<Problem> problem = problemServiceInterface.get(id);
-        if(problem.isPresent()) {
+        if (problem.isPresent()) {
+            return this.success(response, problem.get());
+        }
+
+        return this.error(response, 404, "Проблема не обнаружена. Радуйтесь");
+    }
+
+    @GetMapping("/problem/getMock")
+    public @ResponseBody
+    Response getMock(HttpServletResponse response,
+                     @RequestParam(required = false) Integer id,
+                     @RequestParam(value = "100", required = false) Integer limit,
+                     @RequestParam(value = "0", required = false) Integer offset) {
+
+        if (id == null) {
+            List<Problem> mockProblems = new ArrayList<>();
+
+            for (int i = 0; i < 5; i++) {
+                Problem problem = new Problem();
+                problem.setId(i);
+                problem.setTitle("Test title for your mock problem with id " + i);
+                problem.setText("Пробелма у меня такая. Вот есть Настя по фамилии Гранчак. Стерва блять такая. Пиздов ей надо нахуярить");
+
+                mockProblems.add(problem);
+            }
+
+            return this.success(response, mockProblems);
+        }
+
+        Optional<Problem> problem = problemServiceInterface.get(id);
+        if (problem.isPresent()) {
             return this.success(response, problem.get());
         }
 
@@ -45,11 +77,12 @@ public class ProblemController extends BaseController {
     }
 
     @PostMapping("/problems/add")
-    public @ResponseBody Response add(HttpServletResponse response,
-                                      @RequestBody @Valid  AddProblemViewModel model
+    public @ResponseBody
+    Response add(HttpServletResponse response,
+                 @RequestBody @Valid AddProblemViewModel model
     ) {
         User user = users.findById(4).get(); // TODO: get from service
-        if(problemServiceInterface.add(user, model)) {
+        if (problemServiceInterface.add(user, model)) {
             return this.success(response, "Успешно", 201);
         }
 
@@ -57,9 +90,10 @@ public class ProblemController extends BaseController {
     }
 
     @GetMapping("/problems/approve")
-    public @ResponseBody Response approve(HttpServletResponse response, @RequestParam Integer id) {
+    public @ResponseBody
+    Response approve(HttpServletResponse response, @RequestParam Integer id) {
         try {
-            if(problemServiceInterface.approve(id)) {
+            if (problemServiceInterface.approve(id)) {
                 return this.success(response, "Успешно");
             }
         } catch (ProblemShouldNotApprove problemShouldNotApprove) {
@@ -72,9 +106,10 @@ public class ProblemController extends BaseController {
     }
 
     @GetMapping("/problems/resolve")
-    public @ResponseBody Response resolve(HttpServletResponse response, @RequestParam Integer id) {
+    public @ResponseBody
+    Response resolve(HttpServletResponse response, @RequestParam Integer id) {
         try {
-            if(problemServiceInterface.resolve(id)) {
+            if (problemServiceInterface.resolve(id)) {
                 return this.success(response, "Успешно");
             }
         } catch (ProblemNotApprovedException e) {
@@ -82,6 +117,6 @@ public class ProblemController extends BaseController {
         } catch (ObjectNotFoundException e) {
             return this.error(response, 404, e.getMessage());
         }
-        return  this.error(response);
+        return this.error(response);
     }
 }
