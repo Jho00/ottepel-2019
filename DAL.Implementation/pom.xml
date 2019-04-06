@@ -11,6 +11,10 @@
 
     <artifactId>DAL.Implementation</artifactId>
 
+    <build>
+        <outputDirectory>./target</outputDirectory>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>social</groupId>

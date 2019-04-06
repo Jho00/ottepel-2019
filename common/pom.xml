@@ -13,6 +13,7 @@
 
         <build>
             <sourceDirectory>./src/main/java</sourceDirectory>
+            <outputDirectory>./target</outputDirectory>
         </build>
 
     <dependencies>
