@@ -6,6 +6,7 @@ import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.Photo;
 import org.pet.social.common.entity.User;
 import org.pet.social.common.responses.Response;
+import org.pet.social.common.viewmodels.AddPhotosViewModel;
 import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,10 +32,10 @@ public class PhotoController extends BaseController {
                  HttpServletRequest request,
                  HttpServletResponse response,
                  @PathVariable String problemId,
-                 @RequestParam String[] images) {
+                 @RequestBody AddPhotosViewModel model) {
 
         if(authUtils == null) authUtils = new AuthUtils(userControl);
-
+        String[] images = model.getImages();
         Integer prob = null;
         try{
             prob = Integer.parseInt(problemId);

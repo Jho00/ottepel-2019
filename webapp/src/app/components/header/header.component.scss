@@ -1,9 +1,10 @@
 .container {
+  z-index: 999;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0,0,0,0.81);
+  background-color: rgba(0,0,0,0.9);
   max-width: unset;
   height: 100px;
   padding: 18px 0;
