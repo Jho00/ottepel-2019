@@ -76,8 +76,12 @@ public class ProblemController extends BaseController {
         GetProblemViewModel prob = new GetProblemViewModel();
 
         List<Photo> phots = new ArrayList<>();
-        if(onlyTop1) phots.addAll(photos.GetByProblem(problem.getId()));
-        else phots.add(photos.GetOneByProblem(problem.getId()));
+        if(!onlyTop1) phots.addAll(photos.GetByProblem(problem.getId()));
+        else{
+            Photo el = photos.GetOneByProblem(problem.getId());
+            if(el != null)
+            phots.add(el);
+        }
         String[] arrs = new String[phots.size()];
 
         for(int i = 0;i<phots.size();i++) {
