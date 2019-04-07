@@ -30,16 +30,30 @@
 
   .content {
     background-color: #e6e6e6;
-    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: solid 8px rgba(0, 0, 0, 0.6);
     border-radius: 10px;
+    flex-grow: 0;
+    width: 40%;
+
+    @media(max-width:768px) {
+      flex-grow: 1;
+      width: auto;
+      border: none;
+      border-radius: 0;
+      padding-bottom: 40px;
+    }
 
     .signup-form {
       margin-top: 30px;
       margin-bottom: 30px;
+
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+
       input {
         border-radius: 0;
       }

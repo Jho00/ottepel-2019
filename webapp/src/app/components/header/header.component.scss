@@ -7,12 +7,43 @@
   background-color: rgba(0,0,0,0.9);
   max-width: unset;
   height: 100px;
-  padding: 30px;
+  padding: 0;
   display: flex;
   align-items: center;
 
+  @media (max-width: 992px) {
+    display: block;
+    padding-top: 30px;
+  }
+
+  h2 {
+    color: white;
+    padding-left: 20px;
+  }
+
+  .navbar-toggler {
+    float: right;
+    margin-top: 5px;
+    margin-right: 20px;
+  }
+
+  .navbar-collapse {
+    padding: 30px;
+    @media(max-width:992px) {
+      text-align: center;
+      padding: 0 30px 20px 30px;
+      background: inherit;
+      margin: 24px 0 0;
+    }
+  }
+
   .nav {
     flex-grow: 1;
+    
+    @media (max-width: 992px) {
+      width: calc(100vw - 60px);
+    }
+
     .nav-link {
       color: white;
       text-transform: uppercase;
@@ -25,9 +56,8 @@
     }
   }
 
-  @media(max-width: 720px) {
+  @media(max-width: 768px) {
     font-size: x-large;
-    height: 180px;
   }
 
 }
