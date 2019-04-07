@@ -34,4 +34,8 @@ export class ProblemsService {
   public sendPhotos(data: Object, id: number): Observable<Response> {
       return this.http.post<Response>(`${ENDPOINTS.sendPhotos}/${id}`, data, httpOptions);
   }
+
+  public approveProblem(id: number): Observable<Response> {
+      return this.http.get<Response>(`${ENDPOINTS.approveProblem}?id=${id}`);
+  }
 }

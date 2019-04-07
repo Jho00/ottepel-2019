@@ -33,17 +33,18 @@
 
     .description {
       margin-top: 20px;
+      margin-bottom: 50px;
       word-break: break-word;
     }
 
     #map {
       width: 50%;
       height: 400px;
-      margin-bottom: 25px;
+      margin-bottom: 50px;
     }
 
     .carousel {
-      margin-bottom: 30px;
+      margin-bottom: 50px;
 
       .carousel-inner {
         overflow: visible;
@@ -91,6 +92,21 @@
       }
       .form-control {
         width: 550px !important;
+      }
+    }
+
+    .approve-block {
+      margin-top: 50px;
+      margin-bottom: 20px;
+      width: 100%;
+
+      button {
+        border-radius: 0;
+        font-weight: bold;
+        background-color: #42f474;
+        border: none;
+        width: 200px;
+        height: 50px;
       }
     }
   }

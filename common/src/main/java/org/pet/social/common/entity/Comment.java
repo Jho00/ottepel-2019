@@ -37,6 +37,29 @@ public class Comment {
     @NotNull
     private Integer problemId;
 
+    @Column(name = "username")
+    @NotNull
+    private String username;
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public void setProblemId(Integer problemId) {
+        this.problemId = problemId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public int getUserId() {
         return userId;

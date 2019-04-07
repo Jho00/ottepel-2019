@@ -81,7 +81,7 @@ public class ProblemService implements ProblemServiceInterface {
             if(puas.Resolve(id, userId)){
                 problems.save(readyproblem);
             }
-            return false;
+            return true;
         }
 
         readyproblem.setApproveCount(0);
@@ -112,7 +112,7 @@ public class ProblemService implements ProblemServiceInterface {
             if(puas.Approve(id, userId)){
                 problems.save(readyproblem);
             }
-            return false;
+            return true;
         }
 
         readyproblem.setApproveCount(0);
@@ -156,7 +156,7 @@ public class ProblemService implements ProblemServiceInterface {
 
         Problem problem = targetProblem.get();
 
-        if(problem.getStatus() != ProblemStatus.NOT_CONFIRMED) { // FIXME: change to moderated - status
+        if(problem.getStatus() != ProblemStatus.MODERATION) { // FIXME: change to moderated - status
             throw new ShouldNotModerateException("Проблема не нуждается в модерации ");
         }
 
