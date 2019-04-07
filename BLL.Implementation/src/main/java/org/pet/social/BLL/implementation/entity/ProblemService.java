@@ -9,6 +9,7 @@ import org.pet.social.common.entity.User;
 import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.enums.Resolvers;
 import org.pet.social.common.exceptions.*;
+import org.pet.social.common.utils.CategoryClassifier;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,7 +50,7 @@ public class ProblemService implements ProblemServiceInterface {
         problem.setText(model.getText());
         problem.setTitle(model.getTitle());
         problem.setUserId(user.getId());
-        //problem.setUserId(1);
+        problem.setGovernmentStructure(CategoryClassifier.classify(model.getText(), model.getTitle()));
         problem.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         problem.setLat(model.getLat());
         problem.setLon(model.getLon());

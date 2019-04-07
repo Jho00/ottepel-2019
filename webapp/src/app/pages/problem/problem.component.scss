@@ -34,6 +34,7 @@
 
     .description {
       margin-top: 20px;
+      word-break: break-word;
     }
 
     #map {
@@ -42,7 +43,33 @@
       margin-bottom: 25px;
     }
 
+    .carousel {
+      img {
+        max-height: 250px;
+        object-fit: contain;
+      }
+
+      .active {
+        display: flex;
+        justify-content: center;
+      }
+
+      a {
+        background-color: #9f2534;
+        width: 5rem;
+      }
+    }
+
     .left-comment {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        align-self: center;
+        background-color: #9f2534;
+        border: none;
+        border-radius: 0;
+      }
       .form-control {
         width: 550px !important;
       }

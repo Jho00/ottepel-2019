@@ -17,6 +17,12 @@
       color: white;
       text-transform: uppercase;
     }
+
+    .active {
+      background-color: #9f2534;
+      border: none;
+      border-radius: 0;
+    }
   }
 
   @media(max-width: 720px) {

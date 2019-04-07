@@ -11,6 +11,7 @@ import LocationPicker from "location-picker";
 })
 export class ProblemComponent implements OnInit {
     public problem: Problem;
+    public images: String[] = [];
     public lp: LocationPicker;
     private problemId: string;
     constructor(private route: ActivatedRoute,
@@ -23,6 +24,7 @@ export class ProblemComponent implements OnInit {
             this.problemId = params.get('id');
             this.problemsService.getProblemById(this.problemId).subscribe((data: any) => {
                 this.problem = data.body.problem;
+                this.images = data.body.images;
                 this.lp.setLocation(this.problem.lat, this.problem.lon);
             })
         })

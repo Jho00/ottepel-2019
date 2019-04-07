@@ -1,5 +1,6 @@
 package org.pet.social.common.entity;
 
+import org.pet.social.common.enums.GOVERMANT_STRUCTURE;
 import org.pet.social.common.enums.ProblemStatus;
 import org.pet.social.common.enums.Resolvers;
 
@@ -46,6 +47,9 @@ public class Problem {
     @Column(name = "resolver", columnDefinition = "int default 0")
     private Resolvers resolver;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "government_structure")
+    private GOVERMANT_STRUCTURE governmentStructure;
 
     @Column(name = "category_id")
     @NotNull
@@ -191,6 +195,10 @@ public class Problem {
         this.resolveCount = resolveCount;
     }
 
+    public GOVERMANT_STRUCTURE getGovernmentStructure() { return governmentStructure; }
+
+    public void setGovernmentStructure(GOVERMANT_STRUCTURE governmentStructure) { this.governmentStructure = governmentStructure; }
+
     @Override
     public String toString() {
         return "Problem{" +
@@ -202,6 +210,7 @@ public class Problem {
                 ", createdAt=" + createdAt +
                 ", categoryId=" + categoryId+
                 ", status=" + status +
+                ", governmentStructure" + governmentStructure +
                 '}';
     }
 

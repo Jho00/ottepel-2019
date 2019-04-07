@@ -1,6 +1,7 @@
 package org.pet.social.utils;
 
 import org.pet.social.BLL.contracts.UserControlInterface;
+import org.pet.social.BLL.implementation.UserControlService;
 import org.pet.social.common.consts.AuthConstHolder;
 import org.pet.social.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
