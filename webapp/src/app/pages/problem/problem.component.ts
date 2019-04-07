@@ -24,6 +24,7 @@ export class ProblemComponent implements OnInit {
     public comments: Comment[] = [];
     public commentForm: FormGroup;
     public approved: boolean;
+    public resolved: boolean;
     constructor(private route: ActivatedRoute,
                 private problemsService: ProblemsService,
                 private userService: UserService,
@@ -37,6 +38,7 @@ export class ProblemComponent implements OnInit {
         this.route.paramMap.subscribe(params => {
             this.problemId = params.get('id');
             this.checkForApprove();
+            this.checkForResolve();
             this.problemsService.getProblemById(this.problemId).subscribe((data: any) => {
                 this.problem = data.body.problem;
                 this.images = data.body.images;
@@ -65,6 +67,7 @@ export class ProblemComponent implements OnInit {
             let approves = [this.problemId];
             this.problemsService.approveProblem(this.problem.id).subscribe(() => {
                 localStorage.setItem('approves', JSON.stringify(approves));
+                this.approved = true;
             });
 
         } else {
@@ -74,6 +77,36 @@ export class ProblemComponent implements OnInit {
                     approves.push(this.problemId);
                     localStorage.setItem('approves', JSON.stringify(approves));
                     this.approved = true;
+                });
+            }
+
+        }
+    }
+
+    private checkForResolve() {
+        if(localStorage.getItem('resolves') !== null) {
+            let resolves = JSON.parse(localStorage.getItem('resolves'));
+            this.resolved = resolves.indexOf(this.problemId) !== -1;
+        } else {
+            this.resolved = false;
+        }
+    }
+
+    public resolve() {
+        if(localStorage.getItem('resolves') === null) {
+            let resolves = [this.problemId];
+            this.problemsService.resolveProblem(this.problem.id).subscribe(() => {
+                localStorage.setItem('resolves', JSON.stringify(resolves));
+                this.resolved = true;
+            });
+
+        } else {
+            let resolves = JSON.parse(localStorage.getItem('resolves'));
+            if (resolves.indexOf(this.problemId) === -1) {
+                this.problemsService.resolveProblem(this.problem.id).subscribe(() => {
+                    resolves.push(this.problemId);
+                    localStorage.setItem('resolves', JSON.stringify(resolves));
+                    this.resolved = true;
                 });
             }
 

@@ -63,6 +63,11 @@
       opacity: 0.5;
     }
 
+    .liked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
   }
 
   .problem-title {

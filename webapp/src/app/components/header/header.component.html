@@ -7,7 +7,10 @@
             <a class="nav-link" routerLink="/add-problem" routerLinkActive="active">Сообщить о проблеме</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" *ngIf="currentUser" routerLink="/main">Профиль</a>
+            <a class="nav-link" routerLink="/statistics" routerLinkActive="active">Статистика</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" *ngIf="currentUser" routerLink="/main">{{currentUser?.email}}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" *ngIf="currentUser" routerLink="/main" (click)="logout()">Выход</a>

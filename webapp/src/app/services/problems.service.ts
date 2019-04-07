@@ -38,4 +38,8 @@ export class ProblemsService {
   public approveProblem(id: number): Observable<Response> {
       return this.http.get<Response>(`${ENDPOINTS.approveProblem}?id=${id}`);
   }
+
+  public resolveProblem(id: number): Observable<Response> {
+      return this.http.get<Response>(`${ENDPOINTS.resolveProblem}?id=${id}`);
+  }
 }
