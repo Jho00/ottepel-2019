@@ -56,6 +56,13 @@ public class CommentsController extends BaseController {
         return resp;
     }
 
+    @GetMapping(path = "/post")
+    public @ResponseBody
+    Response getCommentForPost(HttpServletResponse response, @RequestParam int postId) {
+        return this.success(response, commentService.getForPost(postId));
+    }
+
+
     @PostMapping(path = "/like")
     public @ResponseBody
     Response likeComment(HttpServletResponse response, @RequestParam int commentId,

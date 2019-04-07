@@ -7,4 +7,6 @@ public interface CommentsServiceInterface {
     boolean Like(Integer commentId, Integer userId);
     boolean Dislike(Integer commentId, Integer userId);
     Comment Get(Integer commentId);
+
+    Iterable<Comment> getForPost(Integer postId);
 }
