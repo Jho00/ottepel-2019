@@ -23,7 +23,7 @@ public class CommentsController extends BaseController {
 
     AuthUtils authUtils;
 
-    @PostMapping(path = "/add")
+    @GetMapping(path = "/add")
     public @ResponseBody
     Response addComment(HttpServletRequest request,
                         HttpServletResponse response,
