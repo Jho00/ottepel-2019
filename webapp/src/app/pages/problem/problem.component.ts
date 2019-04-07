@@ -23,6 +23,7 @@ export class ProblemComponent implements OnInit {
     public currentUser: User;
     public comments: Comment[] = [];
     public commentForm: FormGroup;
+    public approved: boolean;
     constructor(private route: ActivatedRoute,
                 private problemsService: ProblemsService,
                 private userService: UserService,
@@ -35,6 +36,7 @@ export class ProblemComponent implements OnInit {
         });
         this.route.paramMap.subscribe(params => {
             this.problemId = params.get('id');
+            this.checkForApprove();
             this.problemsService.getProblemById(this.problemId).subscribe((data: any) => {
                 this.problem = data.body.problem;
                 this.images = data.body.images;
@@ -56,6 +58,35 @@ export class ProblemComponent implements OnInit {
                 this.commentForm.reset();
                 this.comments = data.body;
             });
+    }
+
+    public approve(): void {
+        if(localStorage.getItem('approves') === null) {
+            let approves = [this.problemId];
+            this.problemsService.approveProblem(this.problem.id).subscribe(() => {
+                localStorage.setItem('approves', JSON.stringify(approves));
+            });
+
+        } else {
+            let approves = JSON.parse(localStorage.getItem('approves'));
+            if (approves.indexOf(this.problemId) === -1) {
+                this.problemsService.approveProblem(this.problem.id).subscribe(() => {
+                    approves.push(this.problemId);
+                    localStorage.setItem('approves', JSON.stringify(approves));
+                    this.approved = true;
+                });
+            }
+
+        }
+    }
+
+    private checkForApprove() {
+        if(localStorage.getItem('approves') !== null) {
+            let approves = JSON.parse(localStorage.getItem('approves'));
+            this.approved = approves.indexOf(this.problemId) !== -1;
+        } else {
+            this.approved = false;
+        }
     }
 
     private getComments(): void {

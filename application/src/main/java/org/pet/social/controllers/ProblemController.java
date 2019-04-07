@@ -156,7 +156,7 @@ public class ProblemController extends BaseController {
         }
 
         try {
-            User user = userControl.getUser();
+            User user = authUtils.getCurrentUser(request);
             if (problemServiceInterface.approve(id, user.getId())) {
                 return this.success(response, "Успешно");
             }
