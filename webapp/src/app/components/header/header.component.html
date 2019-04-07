@@ -1,19 +1,19 @@
 <div class="container">
     <ul class="nav nav-pills nav-fill">
         <li class="nav-item">
-            <a class="nav-link" routerLink="/main" routerLinkActive="active">Говнопровод</a>
+            <a class="nav-link" routerLink="/main" routerLinkActive="active">Главная</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="/add-problem" routerLinkActive="active">Сообщить о проблеме</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" *ngIf="!currentUser" routerLink="/login" routerLinkActive="active">Вход</a>
+            <a class="nav-link" *ngIf="currentUser" routerLink="/main">Профиль</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" *ngIf="currentUser" routerLink="/main" (click)="logout()">Выход</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" *ngIf="currentUser" routerLink="/main">Профиль</a>
+            <a class="nav-link" *ngIf="!currentUser" routerLink="/login" routerLinkActive="active">Вход</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" *ngIf="!currentUser" routerLink="/signup" routerLinkActive="active">Регистрация</a>

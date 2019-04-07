@@ -1,5 +1,8 @@
 <div class="problem">
     <div class="parallax"></div>
+    <div *ngIf="!problem" class="spinner-border text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
     <div class="content">
         <span class="title">{{problem?.title}}</span>
         <div class="description">
@@ -7,10 +10,10 @@
         </div>
         <div id="map"></div>
         <span class="title">Изображения с места</span>
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleControls" class="carousel" data-ride="carousel" data-interval="0">
             <div class="carousel-inner">
-                <div class="carousel-item active" *ngFor="let image of images">
-                    <img [src]="image" class="d-block w-50" alt="...">
+                <div class="carousel-item" *ngFor="let image of images, let i = index" [class.active]="i === 0">
+                    <img [src]="image" class="d-block w-50" alt="..." [class.scaled]="scaled" (click)="toggleScale()">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -29,7 +32,7 @@
                 <label for="left-comment">Ваш комментарий</label>
                 <textarea class="form-control" id="left-comment" rows="5"></textarea>
             </div>
-            <button class="btn btn-primary">Оставить комментарий</button>
+            <button class="btn btn-primary" [disabled]="!currentUser">Оставить комментарий</button>
         </div>
     </div>
 </div>

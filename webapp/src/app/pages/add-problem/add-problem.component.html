@@ -1,4 +1,5 @@
 <div class="add-problem">
+    <div class="parallax"></div>
     <div class="content">
         <span class="head">Заметили проблему?</span>
         <span>Вы можете сообщить нам о проблеме вашего города</span>
@@ -12,6 +13,7 @@
                     <label for="description">Ваш комментарий</label>
                     <textarea class="form-control" id="description" rows="3" formControlName="text"></textarea>
                 </div>
+                <span>Добавить место</span>
                 <div id="map"></div>
             </form>
         </div>
@@ -27,7 +29,7 @@
             <label for="images">Добавьте изображения места</label>
             <input type="file" accept="image/*"
                    (change)="onFileChanged($event)"
-                   class="form-control-file" id="images"
+                   class="form-control-file inputfile" id="images"
                    multiple>
         </div>
         <button *ngIf="isDataLoaded" class="btn btn-primary"

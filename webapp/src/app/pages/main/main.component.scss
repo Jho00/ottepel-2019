@@ -86,8 +86,8 @@
       align-items: center;
       margin-top: 60px;
 
-      border-left: solid 8px rgba(0, 0, 0, 0.25);
-      border-right: solid 8px rgba(0, 0, 0, 0.25);box-shadow: 6px -2px 3px 3px rgba(0, 0, 0, 0.34);
+      border: solid 8px rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
       box-sizing: content-box;
 
       .problems-list {

@@ -23,9 +23,8 @@
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    border-left: solid 8px rgba(0, 0, 0, 0.25);
-    border-right: solid 8px rgba(0, 0, 0, 0.25);
-    box-shadow: 6px -2px 3px 3px rgba(0, 0, 0, 0.34);
+    border: solid 8px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
 
     .title {
       font-size: 20px;
@@ -39,14 +38,29 @@
 
     #map {
       width: 50%;
-      height: 480px;
+      height: 400px;
       margin-bottom: 25px;
     }
 
     .carousel {
+
+      .carousel-inner {
+        overflow: visible;
+      }
       img {
         max-height: 250px;
         object-fit: contain;
+        transition: all 1s ease;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .scaled {
+        transform: scale(2,2);
+        position: relative;
+        z-index: 10;
       }
 
       .active {
@@ -56,13 +70,17 @@
 
       a {
         background-color: #9f2534;
-        width: 5rem;
+        width: 3rem;
       }
     }
 
     .left-comment {
       display: flex;
       flex-direction: column;
+
+      textarea {
+        border-radius: 0;
+      }
 
       button {
         align-self: center;
@@ -78,5 +96,5 @@
 }
 
 .my-comment {
-  width: 100%;
+  width: 80%;
 }
