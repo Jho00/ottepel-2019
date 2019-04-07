@@ -47,7 +47,7 @@ public class CommentsService implements CommentsServiceInterface {
 
     @Override
     public Iterable<Comment> getForPost(Integer postId) {
-        return comments.findAllByPostId(postId);
+        return comments.findByProblemId(postId);
     }
 
     public boolean Like(Integer commentId, Integer userId){
