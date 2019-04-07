@@ -45,12 +45,13 @@
 
     .carousel {
       margin-bottom: 50px;
+      width: 100%;
 
       .carousel-inner {
         overflow: visible;
       }
       img {
-        max-height: 250px;
+        max-height: 450px;
         object-fit: contain;
         transition: all 1s ease;
 
