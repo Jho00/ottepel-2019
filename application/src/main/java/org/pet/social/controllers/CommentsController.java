@@ -36,7 +36,7 @@ public class CommentsController extends BaseController {
         if (user == null) {
             resp = this.unauthorized(response);
         } else if (commentService.Add(text, problemId, user.getId())) {
-            resp = this.success(response, "");
+            resp = this.success(response, commentService.getForPost(problemId));
         } else {
             resp = this.error(response, 500);
         }

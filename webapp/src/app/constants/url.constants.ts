@@ -11,5 +11,6 @@ export const ENDPOINTS = {
     sendProblem:  `${appUrl}/problems/add`,
     getProblemById: `${appUrl}/problem/get`,
     sendPhotos: `${appUrl}/photos/add`,
-    getComments: `${appUrl}/comments/post`
+    getComments: `${appUrl}/comments/post`,
+    addComment: `${appUrl}/comments/add`
 };

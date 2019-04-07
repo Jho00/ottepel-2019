@@ -5,6 +5,9 @@ import {Problem} from "../../models/problem.model";
 import LocationPicker from "location-picker";
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user.model";
+import {Comment} from "../../models/comment.model";
+import {CommentsService} from "../../services/comments.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'app-problem',
@@ -18,12 +21,18 @@ export class ProblemComponent implements OnInit {
     private problemId: string;
     public scaled = false;
     public currentUser: User;
+    public comments: Comment[] = [];
+    public commentForm: FormGroup;
     constructor(private route: ActivatedRoute,
                 private problemsService: ProblemsService,
-                private userService: UserService) {
+                private userService: UserService,
+                private commentsService: CommentsService) {
     }
 
     ngOnInit() {
+        this.commentForm = new FormGroup({
+            comment: new FormControl('', Validators.required)
+        });
         this.route.paramMap.subscribe(params => {
             this.problemId = params.get('id');
             this.problemsService.getProblemById(this.problemId).subscribe((data: any) => {
@@ -31,6 +40,7 @@ export class ProblemComponent implements OnInit {
                 this.images = data.body.images;
                 this.userService.currentUserChange.subscribe(user => this.currentUser = user);
                 this.lp = new LocationPicker('map');
+                this.getComments();
                 this.lp.setLocation(this.problem.lat, this.problem.lon);
             })
         })
@@ -40,24 +50,16 @@ export class ProblemComponent implements OnInit {
         this.scaled = !this.scaled;
     }
 
-    private fetchComments() {
-      return [
-        {
-          text: 'Lorem ipsum',
-          username: 'Nastya',
-          likes: 20
-        },
-        {
-          text: 'Lorem ipsum',
-          username: 'Nastya',
-          likes: 30
-        },
-        {
-          text: 'Lorem ipsum',
-          username: 'Nastya',
-          likes: 60
-        }
-      ]
+    public addComment(): void {
+        this.commentsService.addComment(this.commentForm.controls['comment'].value, this.problem.id)
+            .subscribe((data: any) => {
+                this.commentForm.reset();
+                this.comments = data.body;
+            });
+    }
+
+    private getComments(): void {
+        this.commentsService.getComments(this.problem.id).subscribe((data: any) => this.comments = data.body);
     }
 
 }

@@ -1,8 +1,5 @@
 <div class="problem">
     <div class="parallax"></div>
-    <div *ngIf="!problem" class="spinner-border text-danger" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
     <div class="content">
         <span class="title">{{problem?.title}}</span>
         <div class="description">
@@ -26,13 +23,15 @@
             </a>
         </div>
         <span class="title">Комментарии</span>
-        <app-comment *ngFor="let comment of fetchComments()" [comment]="comment" class="my-comment"></app-comment>
+        <div *ngIf="comments.length" class="my-comment">
+            <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+        </div>
         <div class="left-comment">
-            <div class="form-group">
+            <div class="form-group" [formGroup]="commentForm">
                 <label for="left-comment">Ваш комментарий</label>
-                <textarea class="form-control" id="left-comment" rows="5"></textarea>
+                <textarea class="form-control" id="left-comment" rows="5" formControlName="comment"></textarea>
             </div>
-            <button class="btn btn-primary" [disabled]="!currentUser">Оставить комментарий</button>
+            <button class="btn btn-primary" [disabled]="currentUser === null || !commentForm.valid" (click)="addComment()">Оставить комментарий</button>
         </div>
     </div>
 </div>
