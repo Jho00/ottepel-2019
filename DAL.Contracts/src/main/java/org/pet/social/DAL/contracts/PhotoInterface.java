@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PhotoInterface  extends CrudRepository<Photo, Integer> {
     List<Photo> findByProblemId(Integer problemId);
+    List<Photo> findTop1ByProblemId(Integer problemId);
 }

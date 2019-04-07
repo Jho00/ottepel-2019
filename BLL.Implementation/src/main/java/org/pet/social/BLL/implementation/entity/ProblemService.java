@@ -11,6 +11,9 @@ import org.pet.social.common.enums.Resolvers;
 import org.pet.social.common.exceptions.*;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -29,8 +32,8 @@ public class ProblemService implements ProblemServiceInterface {
     private Problem problem;
 
     @Override
-    public Iterable<Problem> getLimited(ProblemStatus notStatus, Integer limit, Integer offset) {
-       return problems.findAll();
+    public Page<Problem> getLimited(ProblemStatus notStatus, Pageable pageable) {
+       return problems.findByStatusNot(notStatus, pageable);
     }
 
     @Override

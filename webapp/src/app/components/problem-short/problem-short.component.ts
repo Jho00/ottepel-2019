@@ -8,4 +8,10 @@ import {Problem} from "../../models/problem.model";
 })
 export class ProblemShortComponent {
     @Input() public problem: Problem;
+    @Input() public images: String[];
+
+    toLocaleDateString(timestamp:string): string {
+      return new Date(Date.parse(timestamp)).toLocaleDateString();
+    }
+
 }

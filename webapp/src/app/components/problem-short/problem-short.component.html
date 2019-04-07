@@ -1,6 +1,6 @@
 <div class="problem-short">
   <div class="problem-short-image">
-      <img src="" alt="">
+      <img src="{{images[0]}}" alt="" [routerLink]="['/problem', problem?.id]">
   </div>
   <div class="problem-short-body">
     <span class="problem-title"
@@ -8,10 +8,10 @@
         {{problem?.title}}
     </span>
     <div class="problem-short-panel">
-      <span class="like-btn"><i class="material-icons">thumb_up</i>150</span>
-      <span class="dislike-btn"><i class="material-icons">thumb_down</i>30</span>
-      <span class="comment-btn"><i class="material-icons">mode_comment</i>30</span>
-      <span class="date-place"><i class="material-icons">access_time</i>21 марта 2019</span>
+      <span class="like-btn"><i class="material-icons">thumb_up</i>{{problem?.likesCount}}</span>
+      <span class="dislike-btn"><i class="material-icons">thumb_down</i>{{problem?.dislikesCount}}</span>
+      <span class="comment-btn"><i class="material-icons">mode_comment</i>0</span>
+      <span class="date-place"><i class="material-icons">access_time</i>{{toLocaleDateString(problem?.createdAt)}}</span>
     </div>
     <div class="problem-description">
       {{problem?.text}}

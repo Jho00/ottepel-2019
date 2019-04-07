@@ -9,7 +9,7 @@
     </div>
     <div class="content">
         <div class="problems-list">
-            <app-problem-short *ngFor="let problem of problemsList" [problem]="problem"></app-problem-short>
+            <app-problem-short *ngFor="let problem of problemsList" [problem]="problem.problem" [images]="problem.images"></app-problem-short>
         </div>
     </div>
   </div>

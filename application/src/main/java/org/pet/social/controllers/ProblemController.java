@@ -15,6 +15,10 @@ import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.pet.social.common.viewmodels.GetProblemViewModel;
 import org.pet.social.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +27,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -40,27 +45,48 @@ public class ProblemController extends BaseController {
     public @ResponseBody
     Response get(HttpServletResponse response,
                  @RequestParam(required = false) Integer id,
-                 @RequestParam(value = "100", required = false) Integer limit,
-                 @RequestParam(value = "0", required = false) Integer offset) {
+                 @RequestParam(required = false) Integer limit,
+                 @RequestParam(required = false) Integer offset) {
 
         if (id == null) {
-            return this.success(response, problemServiceInterface.getLimited(ProblemStatus.MODERATION,limit, offset));
+            if(offset == null) offset = 0;
+            if(limit == null) limit = 50;
+
+            Pageable pageable = PageRequest.of(offset, limit, Sort.Direction.DESC, "createdAt");
+            Page<Problem> problems = problemServiceInterface.getLimited(ProblemStatus.MODERATION, pageable);
+
+            GetProblemViewModel[] gets = new GetProblemViewModel[(int)problems.getTotalElements()];
+            List<Problem> strm = problems.getContent();
+            for(int i =0;i<gets.length;i++){
+                gets[i] = createGetProblemViewModel(strm.get(i), true);
+            }
+            return this.success(response, gets);
         }
 
         Optional<Problem> problem = problemServiceInterface.get(id);
         if (problem.isPresent()) {
-            GetProblemViewModel prob = new GetProblemViewModel();
-
-            List<Photo> phots = photos.GetByProblem(problem.get().getId());
-            String[] arrs = new String[phots.size()];
-            for(int i = 0;i<phots.size();i++) arrs[i] = phots.get(i).getData();
-
-            prob.setProblem(problem.get());
-            prob.setImages(arrs);
+            GetProblemViewModel prob = createGetProblemViewModel(problem.get(), false);
             return this.success(response, prob);
         }
 
         return this.error(response, 404, "Проблема не обнаружена. Радуйтесь");
+    }
+
+    GetProblemViewModel createGetProblemViewModel(Problem problem, boolean onlyTop1){
+        GetProblemViewModel prob = new GetProblemViewModel();
+
+        List<Photo> phots = new ArrayList<>();
+        if(onlyTop1) phots.addAll(photos.GetByProblem(problem.getId()));
+        else phots.add(photos.GetOneByProblem(problem.getId()));
+        String[] arrs = new String[phots.size()];
+
+        for(int i = 0;i<phots.size();i++) {
+            arrs[i] = phots.get(i).getData();
+        }
+
+        prob.setProblem(problem);
+        prob.setImages(arrs);
+        return prob;
     }
 
     @GetMapping("/problem/")

@@ -1,5 +1,6 @@
 .problem-short {
   width: 70%;
+  min-width: 400px;
   background-color: #ffffff;
   margin-top: 30px;
   height: 250px;
@@ -8,7 +9,7 @@
   display: flex;
 
   .problem-short-image {
-    width: 55%;
+    width: 40%;
     max-width: 350px;
     display: flex;
     align-items: center;
@@ -16,11 +17,21 @@
     background-size: cover;
     background-position: center;
     margin-right: 10px;
+    flex-shrink: 0;
+
+    img {
+      object-fit: cover;
+      height: 250px;
+      width: 100%;
+      cursor: pointer;
+    }
+
   }
   .problem-short-body {
     padding: 10px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
   }
 
   .problem-short-panel {

@@ -43,7 +43,7 @@ public class PhotoService implements PhotoServiceInterface {
         return p;
     }
 
-    public boolean AddMany(String[] base64Images, int problemId, int userId) {
+    public boolean AddMany(String[] base64Images, int userId, int problemId) {
         ArrayList<Photo> pics = new ArrayList<>(base64Images.length);
         for (String file : base64Images) {
             Photo p = Add(file, userId, problemId);
@@ -63,5 +63,10 @@ public class PhotoService implements PhotoServiceInterface {
     }
     public List<Photo> GetByProblem(int problemId) {
         return photos.findByProblemId(problemId);
+    }
+    public Photo GetOneByProblem(int problemId) {
+        List<Photo> ph = photos.findTop1ByProblemId(problemId);
+        if(ph.size() > 0) return ph.get(0);
+        return null;
     }
 }
