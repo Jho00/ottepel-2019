@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.*;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,7 +32,12 @@ public class UserControlService implements UserControlInterface {
 
     @Override
     public boolean passwordValueEquals(String email, String password) {
-        User user = userInterface.findByEmail(email).get(0);
+        List<User> users = userInterface.findByEmail(email);
+        if (users.size() == 0) {
+            return false;
+        }
+
+        User user = users.get(0);
         return ((password + user.getSalt()).hashCode() + "").equals(user.getPasswordHash());
     }
 
@@ -68,7 +74,12 @@ public class UserControlService implements UserControlInterface {
 
     @Override
     public void setToken(String email, String token) {
-        User user = userInterface.findByEmail(email).get(0);
+        List<User> users = userInterface.findByEmail(email);
+        if (users.size() == 0) {
+            return;
+        }
+
+        User user = users.get(0);
         user.setToken(token);
         setUser(user);
         userInterface.save(user);
