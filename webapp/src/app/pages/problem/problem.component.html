@@ -33,12 +33,16 @@
             </div>
             <button class="btn btn-primary" [disabled]="currentUser === null || !commentForm.valid" (click)="addComment()">Оставить комментарий</button>
         </div>
-        <div class="approve-block" (click)="approve()">
-            <button class="btn btn-primary" [disabled]="approved">
-                <i class="far fa-thumbs-up"></i>
-                <span *ngIf="!approved">Подтвердить</span>
-                <span *ngIf="approved">Подтверждено</span>
-            </button>
+        <div class="approve-block" >
+          <button class="btn btn-primary" [disabled]="approved"(click)="approve()">
+            <i class="far fa-thumbs-up"></i>
+            <span *ngIf="!approved">Подтвердить</span>
+            <span *ngIf="approved">Подтверждено</span>
+          </button>
+          <button class="btn btn-primary" [disabled]="true" (click)="resolve()">
+            <i class="far fa-thumbs-up"></i>
+            <span>Проблема решена</span>
+          </button>
         </div>
     </div>
 </div>

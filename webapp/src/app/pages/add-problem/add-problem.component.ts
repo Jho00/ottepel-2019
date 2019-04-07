@@ -47,14 +47,6 @@ export class AddProblemComponent implements OnInit {
         this.problemsService.sendProblem(this.problemForm.value).subscribe((data: any) => {
             this.problemId = data.body.id;
             this.isDataLoaded = true;
-        }, (error)=>{
-            if(error.status === 401) {
-              setTimeout(() => {
-                alert("Вы не авторизованы!");
-                    this.router.navigateByUrl('/login');
-              }, 250);
-
-            }
         });
     }
 

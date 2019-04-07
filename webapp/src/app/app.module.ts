@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SignupComponent} from './pages/signup/signup.component';
 import {InterceptorService} from "./services/interceptor.service";
 import { CommentComponent } from './components/comment/comment.component';
+import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 const appRoutes: Routes = [
     {
@@ -46,6 +47,11 @@ const appRoutes: Routes = [
         path: 'signup',
         component: SignupComponent,
         pathMatch: 'full'
+    },
+    {
+        path: 'statistics',
+        component: StatisticsComponent,
+        pathMatch: 'full'
     }
 ];
 
@@ -60,7 +66,8 @@ const appRoutes: Routes = [
         ProblemComponent,
         LoginComponent,
         SignupComponent,
-        CommentComponent
+        CommentComponent,
+        StatisticsComponent
     ],
     imports: [
         RouterModule.forRoot(appRoutes),
