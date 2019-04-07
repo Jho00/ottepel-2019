@@ -45,6 +45,11 @@ public class CommentsService implements CommentsServiceInterface {
         return c.orElse(null);
     }
 
+    @Override
+    public Iterable<Comment> getForPost(Integer postId) {
+        return comments.findAllByPostId(postId);
+    }
+
     public boolean Like(Integer commentId, Integer userId){
         if(commentId == null || userId == null) return false;
         Optional<Comment> c = comments.findById(commentId);
