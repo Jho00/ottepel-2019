@@ -17,7 +17,7 @@ public class CommentsController extends BaseController {
     @Autowired
     CommentsServiceInterface commentService;
 
-    @PostMapping(path = "/add")
+    @GetMapping(path = "/add")
     public @ResponseBody
     Response addComment(HttpServletRequest request,
                         HttpServletResponse response,
