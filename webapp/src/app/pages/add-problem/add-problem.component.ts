@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import LocationPicker from "location-picker";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ProblemsService} from "../../services/problems.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -9,18 +12,58 @@ import LocationPicker from "location-picker";
 })
 export class AddProblemComponent implements OnInit {
     public lp: LocationPicker;
-    public selectedFile: File;
-    constructor() {
+    public selectedFiles: File[];
+    public problemForm: FormGroup;
+    public isDataLoaded = false;
+    public problemId: number;
+    public upload: any[] = [];
+
+
+    constructor(private fb: FormBuilder,
+                private problemsService: ProblemsService,
+                private router: Router) {
     }
 
     ngOnInit() {
         this.lp = new LocationPicker('map');
-        console.log(this.lp.getMarkerPosition());
+        this.problemForm = this.fb.group({
+            title: new FormControl('', [Validators.required]),
+            text: new FormControl('', [Validators.required]),
+            lat: new FormControl(''),
+            lon: new FormControl(''),
+        })
     }
 
     public onFileChanged(event) {
-        this.selectedFile = event.target.files[0];
+        this.selectedFiles = event.target.files;
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+            this.readThis(this.selectedFiles[i]);
+        }
     }
 
+    public submitForm(): void {
+        this.problemForm.controls['lat'].setValue(this.lp.getMarkerPosition().lat);
+        this.problemForm.controls['lon'].setValue(this.lp.getMarkerPosition().lng);
+        this.problemsService.sendProblem(this.problemForm.value).subscribe((data: any) => {
+            this.problemId = data.body.id;
+            this.isDataLoaded = true;
+        });
+    }
 
+    public sendPhotos(): void {
+        this.problemsService.sendPhotos(JSON.stringify({images: this.upload}), this.problemId).subscribe(() => {
+            this.router.navigateByUrl('/main');
+        });
+    }
+
+    private readThis(inputValue: any): void {
+        let file: File = inputValue;
+        let myReader:FileReader = new FileReader();
+
+        myReader.onloadend = (e) => {
+            let image = myReader.result;
+            this.upload.push(image);
+        };
+        myReader.readAsDataURL(file);
+    }
 }

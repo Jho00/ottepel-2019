@@ -67,6 +67,29 @@ public class Problem {
     @Column(name = "resolve_count", columnDefinition = "int default 0")
     private int resolveCount;
 
+    @Column(name = "likes_count", columnDefinition = "int default 0")
+    private int likesCount;
+
+    @Column(name = "dislikes_count", columnDefinition = "int default 0")
+    private int dislikesCount;
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public int getDislikesCount() {
+        return dislikesCount;
+    }
+
+    public void setDislikesCount(int dislikesCount) {
+        this.dislikesCount = dislikesCount;
+    }
+
+
     public Resolvers getResolver() {
         return resolver;
     }

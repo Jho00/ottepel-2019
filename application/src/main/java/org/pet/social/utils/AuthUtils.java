@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthUtils {
-    private UserControlService userControl = new UserControlService();
+    private UserControlInterface userControl;
+
+    public AuthUtils(UserControlInterface userControl){
+        this.userControl = userControl;
+    }
 
     public boolean isLogedIn(HttpServletRequest request) {
         return request.getHeader(AuthConstHolder.HTTP_AUTH_TOKEN_HEADER_NAME) != null;
@@ -21,7 +25,9 @@ public class AuthUtils {
         if (token == null) {
             return null;
         }
-
+        if(userControl == null){
+            return null;
+        }
         return userControl.getUserByToken(token);
     }
 }

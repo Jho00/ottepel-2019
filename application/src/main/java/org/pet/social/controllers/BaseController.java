@@ -1,5 +1,6 @@
 package org.pet.social.controllers;
 
+import org.pet.social.BLL.contracts.utils.AuthUtilsInterface;
 import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.ResponseCodes;
@@ -13,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class BaseController {
-    protected AuthUtils authUtils = new AuthUtils();
-
     protected Response error(HttpServletResponse response)  {
         response.setStatus(400);
         return new ErrorResponse();

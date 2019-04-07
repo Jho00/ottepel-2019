@@ -14,6 +14,7 @@ import org.pet.social.common.responses.ErrorResponse;
 import org.pet.social.common.responses.Response;
 import org.pet.social.common.responses.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -91,10 +92,8 @@ public class TestController extends BaseController{
     @GetMapping(path = "/problems")
     public @ResponseBody
     Response GetProblems() {
-        List<Problem> it = probServ.getLimited(ProblemStatus.MODERATION, 10, 0);
-        if (it.size() > 0) {
-            return new SuccessResponse(it);
-        } else return new ErrorResponse();
+        Iterable<Problem> it = probServ.getLimited(ProblemStatus.MODERATION, new PageRequest(0, 100));
+        return  new SuccessResponse(it);
     }
 
 

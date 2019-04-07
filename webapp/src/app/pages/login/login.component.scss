@@ -1,15 +1,56 @@
+.parallax {
+  background-image: url(/assets/images/index-bg.png);
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+}
+
 .login {
-  margin-top: 50px;
+  margin-top: 170px;
   display: flex;
   justify-content: center;
   width: 100%;
 
   .content {
-    background-color: #e5edf9;
-    width: 70%;
+    background-color: #e6e6e6;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    border: solid 8px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+
+    .header {
+      color: #FFFFFF;
+      font-size: 25px;
+      font-weight: bold;
+      width: 100%;
+      background-color: #9f2534;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-form {
+      margin-top: 30px;
+      margin-bottom: 30px;
+
+      input {
+        border-radius: 0;
+      }
+
+      button {
+        background-color: #9f2534;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+      }
+    }
   }
 }

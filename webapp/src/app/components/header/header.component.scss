@@ -1,5 +1,33 @@
 .container {
-  position: absolute;
+  z-index: 999;
+  position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.9);
+  max-width: unset;
+  height: 100px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+
+  .nav {
+    flex-grow: 1;
+    .nav-link {
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .active {
+      background-color: #9f2534;
+      border: none;
+      border-radius: 0;
+    }
+  }
+
+  @media(max-width: 720px) {
+    font-size: x-large;
+    height: 180px;
+  }
+
 }

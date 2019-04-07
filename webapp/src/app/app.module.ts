@@ -14,6 +14,7 @@ import {LoginComponent} from './pages/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SignupComponent} from './pages/signup/signup.component';
 import {InterceptorService} from "./services/interceptor.service";
+import { CommentComponent } from './components/comment/comment.component';
 
 const appRoutes: Routes = [
     {
@@ -58,7 +59,8 @@ const appRoutes: Routes = [
         ProblemShortComponent,
         ProblemComponent,
         LoginComponent,
-        SignupComponent
+        SignupComponent,
+        CommentComponent
     ],
     imports: [
         RouterModule.forRoot(appRoutes),

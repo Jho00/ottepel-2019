@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Problem} from "../../models/problem.model";
 
 @Component({
@@ -8,4 +8,10 @@ import {Problem} from "../../models/problem.model";
 })
 export class ProblemShortComponent {
     @Input() public problem: Problem;
+    @Input() public images: String[];
+
+    toLocaleDateString(timestamp:string): string {
+      return new Date(Date.parse(timestamp)).toLocaleDateString();
+    }
+
 }

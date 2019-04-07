@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
     styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-    public problemsList: Problem[] = [];
+    public problemsList: any[] = [];
     private _subs: Subscription[] = [];
 
     constructor(private problemsService: ProblemsService) {
@@ -22,4 +22,5 @@ export class MainComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._subs.forEach(sub => sub.unsubscribe());
     }
+
 }

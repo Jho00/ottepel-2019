@@ -12,7 +12,9 @@ import org.pet.social.common.exceptions.*;
 import org.pet.social.common.utils.CategoryClassifier;
 import org.pet.social.common.viewmodels.AddProblemViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -31,8 +33,8 @@ public class ProblemService implements ProblemServiceInterface {
     private Problem problem;
 
     @Override
-    public List<Problem> getLimited(ProblemStatus notStatus,Integer limit, Integer offset) {
-       return problems.findTopByStatusNotOrderById(notStatus,PageRequest.of(offset, limit));
+    public Page<Problem> getLimited(ProblemStatus notStatus, Pageable pageable) {
+       return problems.findByStatusNot(notStatus, pageable);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class ProblemService implements ProblemServiceInterface {
             if(puas.Resolve(id, userId)){
                 problems.save(readyproblem);
             }
-            return false;
+            return true;
         }
 
         readyproblem.setApproveCount(0);
@@ -110,7 +112,7 @@ public class ProblemService implements ProblemServiceInterface {
             if(puas.Approve(id, userId)){
                 problems.save(readyproblem);
             }
-            return false;
+            return true;
         }
 
         readyproblem.setApproveCount(0);
@@ -154,7 +156,7 @@ public class ProblemService implements ProblemServiceInterface {
 
         Problem problem = targetProblem.get();
 
-        if(problem.getStatus() != ProblemStatus.NOT_CONFIRMED) { // FIXME: change to moderated - status
+        if(problem.getStatus() != ProblemStatus.MODERATION) { // FIXME: change to moderated - status
             throw new ShouldNotModerateException("Проблема не нуждается в модерации ");
         }
 
