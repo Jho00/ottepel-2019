@@ -5,6 +5,7 @@ import org.pet.social.DAL.contracts.CommentInterface;
 import org.pet.social.DAL.contracts.ProblemInterface;
 import org.pet.social.DAL.contracts.UserInterface;
 import org.pet.social.common.entity.Comment;
+import org.pet.social.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,19 @@ public class CommentsService implements CommentsServiceInterface {
 
     public boolean Add(String text, Integer problemId, Integer userId){
 
-        if(!problems.findById(problemId).isPresent()) return false;
-        if(!users.findById(userId).isPresent()) return false;
-        if(text == null || text.trim().isEmpty()) return false;
+        if(!problems.findById(problemId).isPresent()) {
+            return false;
+        }
+        Optional<User> seacrhUser = users.findById(userId);
+        if(!seacrhUser.isPresent()) {
+            return false;
+        }
 
+        if(text == null || text.trim().isEmpty()) {
+            return false;
+        }
+
+        User user = seacrhUser.get();
         Comment c = new Comment();
         c.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         c.setProblemId(problemId);
@@ -35,6 +45,8 @@ public class CommentsService implements CommentsServiceInterface {
         c.setUserId(userId);
         c.setLikes(0);
         c.setDislikes(0);
+        c.setUsername(user.getEmail());
+
         comments.save(c);
         return true;
     }
